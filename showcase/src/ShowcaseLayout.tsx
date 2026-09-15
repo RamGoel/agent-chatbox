@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, flushSync } from "react";
 import { Link, useLocation, Outlet } from "react-router-dom";
 import { Search, Sun, Moon, LayoutPanelTop, House, Settings } from "lucide-react";
 import { buildMenu } from "./registry";
@@ -169,59 +169,28 @@ export function ShowcaseLayout() {
   const [dark, setDark] = useState(() => localStorage.getItem("theme") === "dark");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const applyTheme = (isDark: boolean) => {
-    if (isDark) {
+  const toggleTheme = () => {
+    const swap = () => {
+      flushSync(() => setDark((d) => !d));
+    };
+
+    if (document.startViewTransition) {
+      document.startViewTransition(swap);
+    } else {
+      swap();
+    }
+  };
+
+  // Apply dark class to <html> and persist to localStorage
+  useEffect(() => {
+    if (dark) {
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
     } else {
       document.documentElement.classList.remove("dark");
       localStorage.setItem("theme", "light");
     }
-  };
-
-  const toggleTheme = () => {
-    const willBeDark = !dark;
-    const x = 0;
-    const y = window.innerHeight;
-    const endRadius = Math.hypot(window.innerWidth, window.innerHeight);
-
-    const doc = document as Document & {
-      startViewTransition?: (cb: () => void) => { ready: Promise<void> };
-    };
-
-    if (!doc.startViewTransition) {
-      applyTheme(willBeDark);
-      setDark(willBeDark);
-      return;
-    }
-
-    const transition = doc.startViewTransition(() => {
-      applyTheme(willBeDark);
-      setDark(willBeDark);
-    });
-
-    transition.ready.then(() => {
-      document.documentElement.animate(
-        {
-          clipPath: [
-            `circle(0px at ${x}px ${y}px)`,
-            `circle(${endRadius}px at ${x}px ${y}px)`,
-          ],
-        },
-        {
-          duration: 700,
-          easing: "ease-in-out",
-          pseudoElement: "::view-transition-new(root)",
-        }
-      );
-    });
-  };
-
-  // Apply theme on initial mount only
-  useEffect(() => {
-    applyTheme(dark);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dark]);
 
   return (
     <div className="flex h-svh w-full overflow-hidden p-2 bg-ak-surface">

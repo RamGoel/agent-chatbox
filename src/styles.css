@@ -146,17 +146,21 @@ body {
 }
 
 /* Circular reveal animation for theme toggle */
-::view-transition-group(root),
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
+@keyframes theme-circle-reveal {
+  from {
+    clip-path: circle(0% at 0% 100%);
+  }
+  to {
+    clip-path: circle(150% at 0% 100%);
+  }
 }
 
 ::view-transition-old(root) {
+  animation: none;
   z-index: 1;
 }
 
 ::view-transition-new(root) {
-  z-index: 9999;
+  animation: theme-circle-reveal 1s ease-in-out;
+  z-index: 2;
 }
