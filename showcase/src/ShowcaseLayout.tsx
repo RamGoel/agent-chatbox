@@ -190,11 +190,13 @@ export function ShowcaseLayout() {
     };
 
     if (!doc.startViewTransition) {
+      applyTheme(willBeDark);
       setDark(willBeDark);
       return;
     }
 
     const transition = doc.startViewTransition(() => {
+      applyTheme(willBeDark);
       setDark(willBeDark);
     });
 
@@ -215,9 +217,11 @@ export function ShowcaseLayout() {
     });
   };
 
+  // Apply theme on initial mount only
   useEffect(() => {
     applyTheme(dark);
-  }, [dark]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="flex h-svh w-full overflow-hidden p-2 bg-ak-surface">
