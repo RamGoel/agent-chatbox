@@ -67,6 +67,12 @@
   font-synthesis: none;
 }
 
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
 /* agent-kit default theme — override these CSS variables to customize */
 
 :root {
