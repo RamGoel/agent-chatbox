@@ -29,6 +29,55 @@ export interface AgentQuestionProps {
 }
 
 // ============================================================================
+// Option row — matches Sarvam extension pattern
+// ============================================================================
+
+function OptionRow({
+  label,
+  selected,
+  onClick,
+}: {
+  label: string;
+  selected?: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onMouseDown={(e) => e.preventDefault()}
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick();
+      }}
+      className={cn(
+        "group w-full rounded-lg border px-3 py-2 text-left transition-colors",
+        "active:scale-[0.98]",
+        selected
+          ? "border-ak-primary bg-ak-surface-active"
+          : "border-ak-border bg-ak-surface hover:border-ak-border-hover hover:bg-ak-surface-hover"
+      )}
+    >
+      <div className="flex min-w-0 items-center gap-2">
+        <span className="min-w-0 flex-1 truncate text-sm text-ak-content">
+          {label}
+        </span>
+        <span
+          className={cn(
+            "shrink-0 text-xs transition-opacity",
+            selected
+              ? "text-ak-primary opacity-100"
+              : "text-ak-content-tertiary opacity-0 group-hover:opacity-60"
+          )}
+          aria-hidden="true"
+        >
+          {selected ? "\u2713" : "\u2192"}
+        </span>
+      </div>
+    </button>
+  );
+}
+
+// ============================================================================
 // Component
 // ============================================================================
 
@@ -61,12 +110,12 @@ export function AgentQuestion({
     return (
       <div
         className={cn(
-          "w-full shrink-0 rounded-md border border-ak-border bg-ak-surface-hover px-3 py-2.5",
+          "w-full shrink-0 rounded-lg border border-ak-border bg-ak-surface-hover px-3 py-2.5",
           className
         )}
       >
         <div className="flex flex-col gap-0.5">
-          <span className="text-xs font-medium text-ak-content-secondary">
+          <span className="text-sm font-medium text-ak-content-secondary">
             {question}
           </span>
           <span className="text-sm text-ak-content">
@@ -152,104 +201,86 @@ export function AgentQuestion({
 
   return (
     <div className={cn("w-full shrink-0", className)}>
-      <div className="overflow-hidden rounded-md border border-ak-border bg-ak-surface-hover shadow-sm">
-        <div className="flex flex-col p-5">
-          <div className="flex flex-col gap-4">
-            <div className="text-sm text-ak-content">
-              <Markdown content={question} />
-            </div>
-
-            {type === "text" && (
-              <input
-                type={secret ? "password" : "text"}
-                placeholder={placeholder}
-                value={textValue}
-                onChange={(e) => setTextValue(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    handleSubmit();
-                  }
-                }}
-                className="w-full rounded-md border border-ak-border bg-ak-surface px-3 py-2 text-sm text-ak-content outline-none transition-colors placeholder:text-ak-content-tertiary focus:border-ak-border-hover"
-              />
-            )}
-
-            {(type === "single-select" || type === "multi-select") && (
-              <div className="mt-0.5 flex flex-col gap-2">
-                {options.map((opt) => {
-                  const isSelected =
-                    type === "single-select"
-                      ? selected === opt.value
-                      : multiSelected.has(opt.value);
-                  return (
-                    <button
-                      key={opt.value}
-                      onClick={() => selectOption(opt.value)}
-                      className={cn(
-                        "flex items-center justify-between rounded-md border px-4 py-3 text-left text-sm transition-colors",
-                        isSelected
-                          ? "border-ak-primary bg-ak-primary/10 text-ak-content"
-                          : "border-ak-border bg-ak-surface text-ak-content hover:bg-ak-surface-hover"
-                      )}
-                    >
-                      {opt.label}
-                      {isSelected && (
-                        <span className="size-4 rounded-full bg-ak-primary" />
-                      )}
-                    </button>
-                  );
-                })}
-
-                {allowOther && (
-                  <>
-                    <button
-                      onClick={() => selectOption("__other__")}
-                      className={cn(
-                        "flex items-center justify-between rounded-md border px-4 py-2 text-left text-sm transition-colors",
-                        otherSelected
-                          ? "border-ak-primary bg-ak-primary/10 text-ak-content"
-                          : "border-ak-border bg-ak-surface text-ak-content hover:bg-ak-surface-hover"
-                      )}
-                    >
-                      Other
-                      {otherSelected && (
-                        <span className="size-4 rounded-full bg-ak-primary" />
-                      )}
-                    </button>
-                    {otherSelected && (
-                      <input
-                        type={secret ? "password" : "text"}
-                        placeholder="Type your answer…"
-                        value={otherText}
-                        onChange={(e) => setOtherText(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            e.preventDefault();
-                            handleSubmit();
-                          }
-                        }}
-                        className="w-full rounded-md border border-ak-border bg-ak-surface px-3 py-2 text-sm text-ak-content outline-none transition-colors placeholder:text-ak-content-tertiary focus:border-ak-border-hover"
-                      />
-                    )}
-                  </>
-                )}
-              </div>
-            )}
+      <div className="overflow-hidden rounded-lg border border-ak-border bg-ak-surface shadow-sm">
+        {/* Content */}
+        <div className="flex flex-col gap-1.5 px-3 py-2.5">
+          <div className="text-sm text-ak-content">
+            <Markdown content={question} />
           </div>
+
+          {type === "text" && (
+            <input
+              type={secret ? "password" : "text"}
+              placeholder={placeholder}
+              value={textValue}
+              onChange={(e) => setTextValue(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleSubmit();
+                }
+              }}
+              className="w-full rounded-lg border border-ak-border bg-ak-surface px-2.5 py-1.5 text-sm text-ak-content outline-none transition-colors placeholder:text-ak-content-tertiary focus:border-ak-border-hover"
+            />
+          )}
+
+          {(type === "single-select" || type === "multi-select") && (
+            <div className="mt-0.5 flex flex-col gap-1">
+              {options.map((opt) => {
+                const isSelected =
+                  type === "single-select"
+                    ? selected === opt.value
+                    : multiSelected.has(opt.value);
+                return (
+                  <OptionRow
+                    key={opt.value}
+                    label={opt.label}
+                    selected={isSelected}
+                    onClick={() => selectOption(opt.value)}
+                  />
+                );
+              })}
+
+              {allowOther && (
+                <>
+                  <OptionRow
+                    label="Other"
+                    selected={otherSelected}
+                    onClick={() => selectOption("__other__")}
+                  />
+                  {otherSelected && (
+                    <input
+                      type={secret ? "password" : "text"}
+                      placeholder="Type your answer…"
+                      value={otherText}
+                      onChange={(e) => setOtherText(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          handleSubmit();
+                        }
+                      }}
+                      className="w-full rounded-lg border border-ak-border bg-ak-surface px-2.5 py-1.5 text-sm text-ak-content outline-none transition-colors placeholder:text-ak-content-tertiary focus:border-ak-border-hover"
+                    />
+                  )}
+                </>
+              )}
+            </div>
+          )}
         </div>
 
+        {/* Footer */}
         {showFooter && (
-          <div
-            className="flex items-center justify-between gap-2 border-t border-ak-border px-3 py-3"
-            style={{
-              backgroundColor: "color-mix(in srgb, var(--ak-surface) 40%, transparent)",
-            }}
-          >
+          <div className="flex items-center justify-between gap-2 border-t border-ak-border px-3 py-2">
             {skipLabel !== undefined ? (
               <button
-                onClick={handleSkip}
-                className="rounded-md border border-ak-border bg-ak-surface px-4 py-2 text-sm text-ak-content transition-colors hover:bg-ak-surface-hover"
+                type="button"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleSkip();
+                }}
+                className="rounded-lg border border-ak-border bg-ak-surface px-3 py-1.5 text-xs font-medium text-ak-content transition-colors hover:bg-ak-surface-hover"
               >
                 {skipLabel}
               </button>
@@ -258,9 +289,14 @@ export function AgentQuestion({
             )}
             {showSubmit && (
               <button
-                onClick={handleSubmit}
+                type="button"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleSubmit();
+                }}
                 disabled={!canSubmit}
-                className="rounded-md bg-ak-primary px-4 py-2 text-sm text-ak-primary-content transition-colors hover:bg-ak-primary-hover disabled:cursor-not-allowed disabled:opacity-40"
+                className="rounded-lg bg-ak-primary px-3 py-1.5 text-xs font-medium text-ak-primary-content transition-colors hover:bg-ak-primary-hover disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {submitLabel}
               </button>

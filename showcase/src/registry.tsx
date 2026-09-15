@@ -716,7 +716,7 @@ export const REGISTRY: ComponentConfig[] = [
           };
 
           return (
-            <div className="w-full" style={{ height: 500 }}>
+            <div className="mx-auto w-full max-w-sm overflow-hidden rounded-3xl border border-ak-border bg-ak-surface shadow-lg" style={{ height: 600 }}>
               <Conversation
                 messages={messages}
                 isGenerating={isGenerating}

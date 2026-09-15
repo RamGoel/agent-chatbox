@@ -141,7 +141,7 @@ export function getToolKindLabel(kind: ToolKind): string {
 
 const KIND_ICON: Record<ToolKind, LucideIcon> = {
   read: File,
-  edit: Pencil,
+  edit: File,
   delete: Trash2,
   move: ArrowUp,
   search: Search,
@@ -355,23 +355,26 @@ export function ToolCall({
 
   return (
     <div
-      className={cn("shrink-0", className)}
+      className={cn(
+        "overflow-hidden transition-opacity duration-200",
+        expanded ? "opacity-80" : "opacity-50 hover:opacity-80",
+        className
+      )}
       data-tool-call-id={toolCallId || ""}
     >
       {/* Header */}
       <div
         className={cn(
-          "flex select-none items-center gap-2 py-0.5 text-xs transition-opacity",
-          "opacity-85 hover:opacity-100",
+          "flex select-none items-center gap-1 py-0.5",
           hasContent ? "cursor-pointer" : "cursor-default"
         )}
         onClick={hasContent ? () => setExpanded((e) => !e) : undefined}
       >
-        <KindIcon size={16} className="text-ak-content-secondary" />
+        <KindIcon size={14} className="text-ak-content-secondary" />
 
         <span
           className={cn(
-            "truncate text-ak-content",
+            "truncate text-xs font-medium text-ak-content-secondary",
             isInProgress && "animate-pulse"
           )}
           title={diffContent?.path || ""}

@@ -41,11 +41,6 @@ export function Reasoning({
     return () => clearInterval(interval);
   }, [streaming, startTime]);
 
-  // Auto-expand when streaming starts
-  React.useEffect(() => {
-    if (streaming) setCollapsed(false);
-  }, [streaming]);
-
   if (!content.trim()) return null;
 
   let label: string;
@@ -67,7 +62,7 @@ export function Reasoning({
     >
       {/* Header — click to toggle */}
       <div
-        className="flex cursor-pointer select-none items-center gap-2 py-0.5"
+        className="flex cursor-pointer select-none items-center gap-1 py-0.5"
         onClick={() => setCollapsed((c) => !c)}
       >
         <Brain size={14} className="text-ak-content-secondary" />
