@@ -19,6 +19,7 @@ export type {
   AgentQuestionProps,
   AgentQuestionType,
   AgentQuestionOption,
+  AgentQuestionItem,
 } from "./components/AgentQuestion";
 
 export { Attachments } from "./components/Attachments";

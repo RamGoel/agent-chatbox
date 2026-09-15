@@ -510,6 +510,53 @@ export const REGISTRY: ComponentConfig[] = [
           </div>
         ),
       },
+          {
+        name: "Multiple Questions",
+        description: "Multiple questions in a single card with numbered headers.",
+        code: `<AgentQuestion
+  questions={[
+    { header: "Environment", question: "Which environment?", type: "single-select", options: [...] },
+    { header: "Region", question: "Which region?", type: "text" },
+  ]}
+  onSubmitMultiple={(answers) => console.log(answers)}
+/>`,
+        render: () => (
+          <div className="w-full max-w-md">
+            <AgentQuestion
+              questions={[
+                {
+                  header: "Environment",
+                  question: "Which environment should I deploy to?",
+                  type: "single-select",
+                  options: [
+                    { label: "Staging", value: "staging" },
+                    { label: "Production", value: "production" },
+                  ],
+                },
+                {
+                  header: "Region",
+                  question: "Which region?",
+                  type: "text",
+                  placeholder: "e.g. us-east-1",
+                },
+                {
+                  header: "Services",
+                  question: "Which services to include?",
+                  type: "multi-select",
+                  options: [
+                    { label: "API", value: "api" },
+                    { label: "Worker", value: "worker" },
+                    { label: "Dashboard", value: "dashboard" },
+                  ],
+                },
+              ]}
+              onSubmitMultiple={(answers) =>
+                alert(JSON.stringify(answers, null, 2))
+              }
+            />
+          </div>
+        ),
+      },
     ],
   },
 
