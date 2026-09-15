@@ -33,6 +33,9 @@ export type { ConversationProps, ConversationMessage } from "./components/Conver
 export { ScrollToBottom } from "./components/ScrollToBottom";
 export type { ScrollToBottomProps } from "./components/ScrollToBottom";
 
+export { Plan } from "./components/Plan";
+export type { PlanProps, PlanEntry, PlanEntryStatus } from "./components/Plan";
+
 // Primitives
 export { Markdown } from "./primitives/Markdown";
 export type { MarkdownProps } from "./primitives/Markdown";

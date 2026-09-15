@@ -6,6 +6,7 @@ import { Reasoning } from "../Reasoning";
 import { ToolCall, type ToolContent } from "../ToolCall";
 import { ChatInput } from "../ChatInput";
 import { ScrollToBottom } from "../ScrollToBottom";
+import { Plan, type PlanEntry } from "../Plan";
 import type { Attachment } from "../Attachments";
 
 // ============================================================================
@@ -36,6 +37,7 @@ export interface ConversationMessage {
     onSubmit?: (answer: string) => void;
     answer?: string;
   };
+  planEntries?: PlanEntry[];
 }
 
 export interface ConversationProps {
@@ -68,6 +70,25 @@ export function Conversation({
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const [showScrollBtn, setShowScrollBtn] = React.useState(false);
 
+  // Find the last active (not all-completed) plan for the floating bar
+  const activePlan = React.useMemo(() => {
+    for (let i = messages.length - 1; i >= 0; i--) {
+      const msg = messages[i];
+      if (msg.planEntries && msg.planEntries.length > 0) {
+        const allDone = msg.planEntries.every((e) => e.status === "completed");
+        if (!allDone) return msg.planEntries;
+      }
+    }
+    return null;
+  }, [messages]);
+
+  // Only the first plan in the conversation renders inline; later ones float only
+  const firstPlanIndex = React.useMemo(() => {
+    return messages.findIndex(
+      (m) => m.planEntries && m.planEntries.length > 0
+    );
+  }, [messages]);
+
   // Check if user is scrolled away from bottom
   const handleScroll = React.useCallback(() => {
     const el = scrollRef.current;
@@ -98,7 +119,7 @@ export function Conversation({
       <div className="relative flex-1 overflow-hidden">
         <div ref={scrollRef} onScroll={handleScroll} className="ak-scroll h-full overflow-y-auto">
           <div className="flex flex-col gap-4 px-3 py-4">
-          {messages.map((msg) => {
+          {messages.map((msg, index) => {
             if (msg.role === "user") {
               return (
                 <UserMessage
@@ -112,10 +133,11 @@ export function Conversation({
             return (
               <div
                 key={msg.id}
-                className="flex w-full shrink-0 flex-col gap-1"
+                className="flex w-full shrink-0 flex-col gap-2"
               >
                 {/* Reasoning (if any) */}
-                  {msg.reasoning && (
+                 <div className="flex flex-col gap-1 ">
+                   {msg.reasoning && (
                     <Reasoning
                       content={msg.reasoning.content}
                       streaming={msg.reasoning.streaming}
@@ -133,6 +155,7 @@ export function Conversation({
                       defaultExpanded={false}
                     />
                   ))}
+                  </div>
 
                   {/* Agent message content */}
                   {msg.content && (
@@ -140,6 +163,11 @@ export function Conversation({
                       content={msg.content}
                       streaming={msg.streaming}
                     />
+                  )}
+
+                  {/* Plan — inline only for the first plan in the conversation */}
+                  {msg.planEntries && msg.planEntries.length > 0 && index === firstPlanIndex && (
+                    <Plan entries={msg.planEntries} />
                   )}
               </div>
             );
@@ -155,8 +183,13 @@ export function Conversation({
         )}
       </div>
 
-      {/* Input */}
+      {/* Active plan floating bar + input */}
       <div className="shrink-0 px-3 py-2.5">
+        {activePlan && (
+          <div className="mb-2">
+            <Plan entries={activePlan} floating />
+          </div>
+        )}
         <ChatInput
           placeholder={placeholder}
           isGenerating={isGenerating}

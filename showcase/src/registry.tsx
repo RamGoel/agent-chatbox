@@ -10,8 +10,10 @@ import {
   Attachments,
   Conversation,
   ScrollToBottom,
+  Plan,
   type Attachment,
   type ConversationMessage,
+  type PlanEntry,
 } from "agent-kit";
 import { useState } from "react";
 
@@ -606,6 +608,52 @@ export const REGISTRY: ComponentConfig[] = [
   },
 
   {
+    slug: "plan",
+    title: "Plan",
+    description:
+      "Plan widget showing a checklist of steps with status indicators (pending, in-progress, completed, failed). Supports an inline panel and a compact floating status bar variant.",
+    stories: [
+      {
+        name: "Inline Plan",
+        description: "Full plan panel with all entry statuses.",
+        code: `<Plan entries={entries} />`,
+        render: () => {
+          const entries: PlanEntry[] = [
+            { content: "Read deployment config", status: "completed" },
+            { content: "Run build and tests", status: "completed" },
+            { content: "Deploy to staging environment", status: "in_progress" },
+            { content: "Verify health checks", status: "pending" },
+            { content: "Notify team in Slack", status: "pending" },
+          ];
+          return (
+            <div className="w-full max-w-sm">
+              <Plan entries={entries} />
+            </div>
+          );
+        },
+      },
+      {
+        name: "Floating Status Bar",
+        description: "Compact collapsible bar shown above the input.",
+        code: `<Plan entries={entries} floating />`,
+        render: () => {
+          const entries: PlanEntry[] = [
+            { content: "Read deployment config", status: "completed" },
+            { content: "Run build and tests", status: "completed" },
+            { content: "Deploy to staging environment", status: "in_progress" },
+            { content: "Verify health checks", status: "pending" },
+          ];
+          return (
+            <div className="w-full max-w-sm">
+              <Plan entries={entries} floating />
+            </div>
+          );
+        },
+      },
+    ],
+  },
+
+  {
     slug: "scroll-to-bottom",
     title: "ScrollToBottom",
     description:
@@ -672,6 +720,12 @@ export const REGISTRY: ComponentConfig[] = [
               ],
               content:
                 "Done! I've deployed to staging.\n\nHere's what I did:\n\n1. **Read** the deployment config\n2. **Built** the project (2.3s)\n3. **Ran** all 42 tests (all passed)\n4. **Deployed** to `staging.example.com`\n\nThe deployment is live at `https://staging.example.com`.",
+              planEntries: [
+                { content: "Read deployment config", status: "completed" },
+                { content: "Build the project", status: "completed" },
+                { content: "Run all tests", status: "completed" },
+                { content: "Deploy to staging", status: "completed" },
+              ],
             },
             {
               id: "3",
@@ -703,6 +757,12 @@ export const REGISTRY: ComponentConfig[] = [
             {
               id: "5",
               role: "agent",
+              planEntries: [
+                { content: "Backup current database", status: "completed" },
+                { content: "Run migration script", status: "in_progress" },
+                { content: "Verify schema changes", status: "pending" },
+                { content: "Restart application servers", status: "pending" },
+              ],
               question: {
                 question: "Which environment should I deploy the migration to?",
                 type: "single-select",
