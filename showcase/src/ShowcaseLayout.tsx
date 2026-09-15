@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState, flushSync } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { flushSync } from "react-dom";
 import { Link, useLocation, Outlet } from "react-router-dom";
 import { Search, Sun, Moon, LayoutPanelTop, House, Settings } from "lucide-react";
 import { buildMenu } from "./registry";
