@@ -6,6 +6,7 @@ import { Reasoning } from "../Reasoning";
 import { ToolCall, type ToolContent } from "../ToolCall";
 import { AgentQuestion } from "../AgentQuestion";
 import { ChatInput } from "../ChatInput";
+import { ScrollToBottom } from "../ScrollToBottom";
 import type { Attachment } from "../Attachments";
 
 // ============================================================================
@@ -66,6 +67,8 @@ export function Conversation({
   className,
 }: ConversationProps) {
   const scrollRef = React.useRef<HTMLDivElement>(null);
+  const [showScrollBtn, setShowScrollBtn] = React.useState(false);
+  const unreadRef = React.useRef(0);
 
   // Find the last unanswered question to float over the input
   const floatingQuestion = React.useMemo(() => {
@@ -78,16 +81,38 @@ export function Conversation({
     return null;
   }, [messages]);
 
-  // Auto-scroll to bottom on new messages
+  // Check if user is scrolled away from bottom
+  const handleScroll = React.useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 80;
+    setShowScrollBtn(!atBottom);
+    if (atBottom) unreadRef.current = 0;
+  }, []);
+
+  // Auto-scroll to bottom on new messages — only if user is already at bottom
   React.useEffect(() => {
     const el = scrollRef.current;
-    if (el) el.scrollTop = el.scrollHeight;
+    if (!el) return;
+    const atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 80;
+    if (atBottom) {
+      el.scrollTop = el.scrollHeight;
+    } else {
+      unreadRef.current += 1;
+    }
   }, [messages]);
+
+  const scrollToBottom = React.useCallback(() => {
+    const el = scrollRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
+    unreadRef.current = 0;
+    setShowScrollBtn(false);
+  }, []);
 
   return (
     <div className={cn("flex h-full flex-col bg-ak-surface", className)}>
       {/* Messages */}
-      <div ref={scrollRef} className="ak-scroll flex-1 overflow-y-auto">
+      <div ref={scrollRef} onScroll={handleScroll} className="ak-scroll flex-1 overflow-y-auto">
         <div className="flex flex-col gap-4 px-3 py-4">
           {messages.map((msg) => {
             if (msg.role === "user") {
@@ -148,6 +173,19 @@ export function Conversation({
             );
           })}
         </div>
+      </div>
+
+      {/* Scroll to bottom */}
+      <div className="relative">
+        {showScrollBtn && (
+          <div className="absolute bottom-2 left-1/2 z-10 -translate-x-1/2">
+            <ScrollToBottom
+              visible
+              onClick={scrollToBottom}
+              unreadCount={unreadRef.current}
+            />
+          </div>
+        )}
       </div>
 
       {/* Input with floating question overlay */}

@@ -30,6 +30,9 @@ export type { CodeBlockProps } from "./components/CodeBlock";
 export { Conversation } from "./components/Conversation";
 export type { ConversationProps, ConversationMessage } from "./components/Conversation";
 
+export { ScrollToBottom } from "./components/ScrollToBottom";
+export type { ScrollToBottomProps } from "./components/ScrollToBottom";
+
 // Primitives
 export { Markdown } from "./primitives/Markdown";
 export type { MarkdownProps } from "./primitives/Markdown";
