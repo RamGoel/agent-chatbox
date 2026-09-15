@@ -119,7 +119,7 @@ export function ComponentPage() {
       <PageContent>
         {/* Title + description */}
         <div className="flex flex-col gap-3 px-2">
-          <h1 className="text-2xl font-bold text-ak-content">{config.title}</h1>
+          <h1 className="text-2xl font-medium text-ak-content">{config.title}</h1>
           <p className="text-base text-ak-content-secondary">{config.description}</p>
         </div>
 

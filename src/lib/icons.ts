@@ -18,6 +18,7 @@ import {
   Square,
   Send,
   type LucideIcon,
+  Settings,
 } from "lucide-react";
 
 export const ICON_MAP: Record<string, LucideIcon> = {
@@ -39,6 +40,7 @@ export const ICON_MAP: Record<string, LucideIcon> = {
   attachment: Paperclip,
   stop: Square,
   send: Send,
+  settings: Settings
 };
 
 export type IconName = keyof typeof ICON_MAP | (string & {});
