@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, Outlet } from "react-router-dom";
-import { Search, Sun, Moon, ChevronRight, LayoutPanelTop, House } from "lucide-react";
+import { Search, Sun, Moon, LayoutPanelTop, House, Settings } from "lucide-react";
 import { buildMenu } from "./registry";
 
 // ============================================================================
@@ -10,7 +10,7 @@ import { buildMenu } from "./registry";
 interface MenuItem {
   label: string;
   href: string;
-  icon: "home" | "component";
+  icon: "home" | "component" | "settings"
 }
 
 interface MenuGroup {
@@ -20,7 +20,7 @@ interface MenuGroup {
 
 const MENU: (MenuItem | MenuGroup)[] = [
   { label: "Introduction", href: "/", icon: "home" },
-  { label: "Setup", href: "/setup", icon: "home" },
+  { label: "Setup", href: "/setup", icon: "settings" },
   {
     label: "AGENT",
     items: buildMenu().map((m) => ({ ...m, icon: "component" as const })),
@@ -66,11 +66,11 @@ function SidebarItem({
     <Link
       to={item.href}
       className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition-colors ${active
-          ? "bg-ak-surface-hover text-ak-content font-medium"
-          : "text-ak-content-secondary hover:bg-ak-surface-hover hover:text-ak-content"
+        ? "bg-ak-surface-hover text-ak-content font-medium"
+        : "text-ak-content-secondary hover:bg-ak-surface-hover hover:text-ak-content"
         }`}
     >
-      {item.icon === "home" ? <House size={16} strokeWidth={1.5} /> : <LayoutPanelTop size={16} strokeWidth={1.5} />}
+      {item.icon === "home" ? <House size={16} strokeWidth={1.5} /> : item.icon === 'settings' ? <Settings size={16} strokeWidth={1.5} /> : <LayoutPanelTop size={16} strokeWidth={1.5} />}
       {item.label}
     </Link>
   );
@@ -124,12 +124,12 @@ function Sidebar({
       </div>
 
       {/* Menu */}
-      <div className="flex-1 overflow-y-auto px-2 pb-4 flex flex-col gap-2">
+      <div className="flex-1 overflow-y-auto px-2 pb-4 flex flex-col gap-0.5">
         {filtered.map((item, i) => {
           if ("items" in item) {
             return (
-              <div key={i} className="mb-4">
-                <div className="mb-1.5 px-3 text-xs uppercase tracking-wide text-ak-content-tertiary">
+              <div key={i} className="mb-2">
+                <div className="my-1.5 px-3 text-xs uppercase tracking-wide text-ak-content-tertiary">
                   {item.label}
                 </div>
                 <div className="flex flex-col gap-0.5">
@@ -145,7 +145,7 @@ function Sidebar({
             );
           }
           return (
-            <div key={i} className="mb-0.5">
+            <div key={i} className="">
               <SidebarItem item={item} active={activePath === item.href} />
             </div>
           );
@@ -169,29 +169,67 @@ export function ShowcaseLayout() {
   const [dark, setDark] = useState(() => localStorage.getItem("theme") === "dark");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const toggleTheme = () => setDark((d) => !d);
-
-  useEffect(() => {
-    if (dark) {
+  const applyTheme = (isDark: boolean) => {
+    if (isDark) {
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
     } else {
       document.documentElement.classList.remove("dark");
       localStorage.setItem("theme", "light");
     }
+  };
+
+  const toggleTheme = () => {
+    const willBeDark = !dark;
+    const x = 0;
+    const y = window.innerHeight;
+    const endRadius = Math.hypot(window.innerWidth, window.innerHeight);
+
+    const doc = document as Document & {
+      startViewTransition?: (cb: () => void) => { ready: Promise<void> };
+    };
+
+    if (!doc.startViewTransition) {
+      setDark(willBeDark);
+      return;
+    }
+
+    const transition = doc.startViewTransition(() => {
+      setDark(willBeDark);
+    });
+
+    transition.ready.then(() => {
+      document.documentElement.animate(
+        {
+          clipPath: [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${endRadius}px at ${x}px ${y}px)`,
+          ],
+        },
+        {
+          duration: 700,
+          easing: "ease-in-out",
+          pseudoElement: "::view-transition-new(root)",
+        }
+      );
+    });
+  };
+
+  useEffect(() => {
+    applyTheme(dark);
   }, [dark]);
 
   return (
     <div className="flex h-svh w-full overflow-hidden p-2 bg-ak-surface">
       {/* Sidebar */}
-        <Sidebar
-          items={MENU}
-          activePath={location.pathname}
-          searchQuery={searchQuery}
-          onSearch={setSearchQuery}
-          dark={dark}
-          onToggleTheme={toggleTheme}
-        />
+      <Sidebar
+        items={MENU}
+        activePath={location.pathname}
+        searchQuery={searchQuery}
+        onSearch={setSearchQuery}
+        dark={dark}
+        onToggleTheme={toggleTheme}
+      />
 
       {/* Main content */}
       <div className="ml-1 flex h-full flex-1 flex-col overflow-auto rounded-xl border border-ak-border bg-ak-surface">
