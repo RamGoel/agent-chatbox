@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { ChatInput } from "agent-kit";
 
 const INSTALL_CMD = "npm install agent-kit";
 
@@ -9,108 +8,6 @@ const ASCII_ART = ` █████╗  ██████╗ ██████
 ██╔══██║██║   ██║██╔══╝  ██║╚██╗██║   ██║╚════╝██╔═██╗ ██║   ██║   
 ██║  ██║╚██████╔╝███████╗██║ ╚████║   ██║      ██║  ██╗██║   ██║   
 ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝   ╚═╝      ╚═╝  ╚═╝╚═╝   ╚═╝   `;
-
-// ============================================================================
-// Bento card
-// ============================================================================
-
-function BentoCard({
-  children,
-  span,
-}: {
-  children: React.ReactNode;
-  span?: string;
-}) {
-  return (
-    <div
-      className={`relative w-full overflow-hidden rounded-xl border border-ak-border bg-ak-surface p-6 ${span ?? ""}`}
-    >
-      {children}
-    </div>
-  );
-}
-
-// ============================================================================
-// Chat preview — live interactive demo
-// ============================================================================
-
-function ChatPreview() {
-  const [messages, setMessages] = React.useState<
-    { role: "user" | "agent"; text: string }[]
-  >([
-    { role: "user", text: "Can you deploy the staging environment?" },
-    {
-      role: "agent",
-      text: "Sure — deploying to staging now. I'll build the image, run the migration, and verify health checks.",
-    },
-  ]);
-  const [isGenerating, setIsGenerating] = React.useState(false);
-
-  const handleSubmit = (value: string) => {
-    setMessages((prev) => [...prev, { role: "user", text: value }]);
-    setIsGenerating(true);
-    setTimeout(() => {
-      setIsGenerating(false);
-      setMessages((prev) => [
-        ...prev,
-        { role: "agent", text: `Done. I've processed your request: "${value}"` },
-      ]);
-    }, 1500);
-  };
-
-  return (
-    <BentoCard span="md:row-span-2">
-      <div className="flex h-full flex-col gap-4">
-        <div className="flex flex-1 flex-col gap-3 overflow-y-auto">
-          {messages.map((msg, i) => (
-            <div
-              key={i}
-              className={`max-w-[80%] rounded-lg px-4 py-2 text-sm ${
-                msg.role === "user"
-                  ? "ml-auto bg-ak-primary text-ak-primary-content"
-                  : "bg-ak-surface-hover text-ak-content"
-              }`}
-            >
-              {msg.text}
-            </div>
-          ))}
-          {isGenerating && (
-            <div className="flex items-center gap-1.5">
-              <span className="size-2 animate-bounce rounded-full bg-ak-content-tertiary [animation-delay:-0.3s]" />
-              <span className="size-2 animate-bounce rounded-full bg-ak-content-tertiary [animation-delay:-0.15s]" />
-              <span className="size-2 animate-bounce rounded-full bg-ak-content-tertiary" />
-            </div>
-          )}
-        </div>
-        <ChatInput
-          placeholder="Type a message…"
-          isGenerating={isGenerating}
-          onSubmit={handleSubmit}
-          onStop={() => setIsGenerating(false)}
-        />
-      </div>
-    </BentoCard>
-  );
-}
-
-// ============================================================================
-// Feature cards
-// ============================================================================
-
-function FeatureCard({
-  title,
-  description,
-}: {
-  title: string;
-  description: string;
-}) {
-  return (
-    <BentoCard>
-      <h3 className="text-base font-semibold text-ak-content">{title}</h3>
-      <p className="mt-1.5 text-sm text-ak-content-secondary">{description}</p>
-    </BentoCard>
-  );
-}
 
 // ============================================================================
 // Install command with copy
@@ -186,28 +83,6 @@ export function IntroPage() {
           <InstallCommand />
         </div>
 
-        {/* Bento grid */}
-        <div
-          className="grid w-full max-w-4xl grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3"
-        >
-          <ChatPreview />
-          <FeatureCard
-            title="Standalone"
-            description="No design system dependency. Ships its own theming via CSS variables."
-          />
-          <FeatureCard
-            title="Tree-shakeable"
-            description="Import only what you need. Each component is independently exported."
-          />
-          <FeatureCard
-            title="Dark mode"
-            description="Built-in dark theme via .dark class. Override any color with CSS variables."
-          />
-          <FeatureCard
-            title="TypeScript"
-            description="Full type definitions included. Strict types for all props and callbacks."
-          />
-        </div>
       </section>
     </div>
   );
