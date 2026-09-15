@@ -69,7 +69,7 @@ function SidebarItem({
           : "text-ak-content-secondary hover:bg-ak-surface-hover hover:text-ak-content"
         }`}
     >
-      {item.icon === "home" ? <House size={16} /> : <LayoutPanelTop size={16} />}
+      {item.icon === "home" ? <House size={16} strokeWidth={1.5} /> : <LayoutPanelTop size={16} strokeWidth={1.5} />}
       {item.label}
     </Link>
   );
