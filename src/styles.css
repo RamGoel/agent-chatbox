@@ -1,0 +1,108 @@
+/* Matter font family */
+@font-face {
+  font-family: "Matter";
+  src: url("./fonts/MatterThin.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Matter";
+  src: url("./fonts/MatterLight.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Matter";
+  src: url("./fonts/MatterRegular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Matter";
+  src: url("./fonts/MatterMedium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Matter";
+  src: url("./fonts/MatterSemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Matter";
+  src: url("./fonts/MatterBold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Matter";
+  src: url("./fonts/MatterHeavy.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Matter";
+  src: url("./fonts/MatterBlack.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Matter Mono";
+  src: url("./fonts/MatterMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  font-synthesis: none;
+}
+
+/* agent-kit default theme — override these CSS variables to customize */
+
+:root {
+  --ak-border: #e4e4e7;
+  --ak-border-hover: #d4d4d8;
+  --ak-surface: #ffffff;
+  --ak-surface-hover: #f4f4f5;
+  --ak-surface-active: #e4e4e7;
+  --ak-primary: #18181b;
+  --ak-primary-hover: #27272a;
+  --ak-primary-content: #ffffff;
+  --ak-danger: #ef4444;
+  --ak-danger-hover: #dc2626;
+  --ak-content: #18181b;
+  --ak-content-secondary: #52525b;
+  --ak-content-tertiary: #a1a1aa;
+  --ak-font-sans: Matter, system-ui, -apple-system, sans-serif;
+  --ak-font-mono: "Matter Mono", ui-monospace, monospace;
+}
+
+.dark {
+  --ak-border: #27272a;
+  --ak-border-hover: #3f3f46;
+  --ak-surface: #18181b;
+  --ak-surface-hover: #27272a;
+  --ak-surface-active: #3f3f46;
+  --ak-primary: #ffffff;
+  --ak-primary-hover: #f4f4f5;
+  --ak-primary-content: #18181b;
+  --ak-danger: #ef4444;
+  --ak-danger-hover: #f87171;
+  --ak-content: #fafafa;
+  --ak-content-secondary: #a1a1aa;
+  --ak-content-tertiary: #71717a;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

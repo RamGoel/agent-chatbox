@@ -1,0 +1,51 @@
+{
+  "name": "agent-kit",
+  "version": "0.0.1",
+  "description": "Standalone React components for building AI agent chat interfaces",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./styles.css": "./dist/styles.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite showcase",
+    "build": "tsup && cp src/styles.css dist/styles.css",
+    "build:showcase": "vite build showcase",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "devDependencies": {
+    "@types/node": "^26.5.1",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "lucide-react": "^1.46.0",
+    "postcss": "^8.4.49",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^3.4.17",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.3"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "prettier": "^3.9.6",
+    "react-router-dom": "^7.18.3",
+    "shiki": "^4.4.3",
+    "tailwind-merge": "^2.5.5"
+  }
+}
