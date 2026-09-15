@@ -9,6 +9,7 @@ import {
   CodeBlock,
   Attachments,
   Conversation,
+  ScrollToBottom,
   type Attachment,
   type ConversationMessage,
 } from "agent-kit";
@@ -600,6 +601,25 @@ export const REGISTRY: ComponentConfig[] = [
             </div>
           );
         },
+      },
+    ],
+  },
+
+  {
+    slug: "scroll-to-bottom",
+    title: "ScrollToBottom",
+    description:
+      "Floating button that appears when the user scrolls away from the bottom of a conversation, with an optional unread message count badge.",
+    stories: [
+      {
+        name: "Default",
+        description: "A floating scroll-to-bottom button with an unread count badge.",
+        code: `<ScrollToBottom visible onClick={() => {}} unreadCount={3} />`,
+        render: () => (
+          <div className="flex h-40 items-center justify-center rounded-lg border border-ak-border bg-ak-surface-hover">
+            <ScrollToBottom visible onClick={() => {}} unreadCount={3} />
+          </div>
+        ),
       },
     ],
   },
