@@ -20,6 +20,7 @@ interface MenuGroup {
 
 const MENU: (MenuItem | MenuGroup)[] = [
   { label: "Introduction", href: "/", icon: "home" },
+  { label: "Setup", href: "/setup", icon: "home" },
   {
     label: "AGENT",
     items: buildMenu().map((m) => ({ ...m, icon: "component" as const })),
