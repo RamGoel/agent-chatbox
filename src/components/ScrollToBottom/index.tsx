@@ -11,8 +11,6 @@ export interface ScrollToBottomProps {
   visible: boolean;
   /** Click handler — typically scrolls the container to the bottom. */
   onClick: () => void;
-  /** Optional unread message count badge. */
-  unreadCount?: number;
   className?: string;
 }
 
@@ -23,7 +21,6 @@ export interface ScrollToBottomProps {
 export function ScrollToBottom({
   visible,
   onClick,
-  unreadCount,
   className,
 }: ScrollToBottomProps) {
   if (!visible) return null;
@@ -43,16 +40,6 @@ export function ScrollToBottom({
       )}
     >
       <ChevronDown size={18} />
-      {unreadCount != null && unreadCount > 0 && (
-        <span
-          className={cn(
-            "absolute -right-1 -top-1 flex min-w-4 items-center justify-center",
-            "rounded-full bg-ak-primary px-1 text-[10px] font-semibold text-ak-primary-content"
-          )}
-        >
-          {unreadCount > 99 ? "99+" : unreadCount}
-        </span>
-      )}
     </button>
   );
 }

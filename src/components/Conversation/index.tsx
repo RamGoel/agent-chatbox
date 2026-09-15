@@ -4,7 +4,6 @@ import { AgentMessage } from "../AgentMessage";
 import { UserMessage } from "../UserMessage";
 import { Reasoning } from "../Reasoning";
 import { ToolCall, type ToolContent } from "../ToolCall";
-import { AgentQuestion } from "../AgentQuestion";
 import { ChatInput } from "../ChatInput";
 import { ScrollToBottom } from "../ScrollToBottom";
 import type { Attachment } from "../Attachments";
@@ -68,18 +67,6 @@ export function Conversation({
 }: ConversationProps) {
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const [showScrollBtn, setShowScrollBtn] = React.useState(false);
-  const unreadRef = React.useRef(0);
-
-  // Find the last unanswered question to float over the input
-  const floatingQuestion = React.useMemo(() => {
-    for (let i = messages.length - 1; i >= 0; i--) {
-      const msg = messages[i];
-      if (msg.question && !msg.question.answer) {
-        return { msg, question: msg.question };
-      }
-    }
-    return null;
-  }, [messages]);
 
   // Check if user is scrolled away from bottom
   const handleScroll = React.useCallback(() => {
@@ -87,7 +74,6 @@ export function Conversation({
     if (!el) return;
     const atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 80;
     setShowScrollBtn(!atBottom);
-    if (atBottom) unreadRef.current = 0;
   }, []);
 
   // Auto-scroll to bottom on new messages — only if user is already at bottom
@@ -97,23 +83,21 @@ export function Conversation({
     const atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 80;
     if (atBottom) {
       el.scrollTop = el.scrollHeight;
-    } else {
-      unreadRef.current += 1;
     }
   }, [messages]);
 
   const scrollToBottom = React.useCallback(() => {
     const el = scrollRef.current;
-    if (el) el.scrollTop = el.scrollHeight;
-    unreadRef.current = 0;
+    if (el) el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
     setShowScrollBtn(false);
   }, []);
 
   return (
     <div className={cn("flex h-full flex-col bg-ak-surface", className)}>
-      {/* Messages */}
-      <div ref={scrollRef} onScroll={handleScroll} className="ak-scroll flex-1 overflow-y-auto">
-        <div className="flex flex-col gap-4 px-3 py-4">
+      {/* Messages — scroll container with relative wrapper for the floating button */}
+      <div className="relative flex-1 overflow-hidden">
+        <div ref={scrollRef} onScroll={handleScroll} className="ak-scroll h-full overflow-y-auto">
+          <div className="flex flex-col gap-4 px-3 py-4">
           {messages.map((msg) => {
             if (msg.role === "user") {
               return (
@@ -157,51 +141,22 @@ export function Conversation({
                       streaming={msg.streaming}
                     />
                   )}
-
-                  {/* Question — rendered inline only if already answered */}
-                  {msg.question && msg.question.answer && (
-                    <AgentQuestion
-                      question={msg.question.question}
-                      type={msg.question.type}
-                      options={msg.question.options}
-                      allowOther={msg.question.allowOther}
-                      onSubmit={msg.question.onSubmit}
-                      answer={msg.question.answer}
-                    />
-                  )}
               </div>
             );
           })}
         </div>
-      </div>
+        </div>
 
-      {/* Scroll to bottom */}
-      <div className="relative">
+        {/* Scroll to bottom — floats at the bottom of the messages area */}
         {showScrollBtn && (
-          <div className="absolute bottom-2 left-1/2 z-10 -translate-x-1/2">
-            <ScrollToBottom
-              visible
-              onClick={scrollToBottom}
-              unreadCount={unreadRef.current}
-            />
+          <div className="absolute bottom-3 left-1/2 z-10 -translate-x-1/2">
+            <ScrollToBottom visible onClick={scrollToBottom} />
           </div>
         )}
       </div>
 
-      {/* Input with floating question overlay */}
-      <div className="relative shrink-0 px-3 py-2.5">
-        {floatingQuestion && (
-          <div className="absolute bottom-full left-2 right-2 z-10 pb-0.5">
-            <AgentQuestion
-              question={floatingQuestion.question.question}
-              type={floatingQuestion.question.type}
-              options={floatingQuestion.question.options}
-              allowOther={floatingQuestion.question.allowOther}
-              onSubmit={floatingQuestion.question.onSubmit}
-              answer={floatingQuestion.question.answer}
-            />
-          </div>
-        )}
+      {/* Input */}
+      <div className="shrink-0 px-3 py-2.5">
         <ChatInput
           placeholder={placeholder}
           isGenerating={isGenerating}

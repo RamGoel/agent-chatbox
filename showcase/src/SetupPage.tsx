@@ -249,7 +249,7 @@ export function SetupPage() {
     <div className="mx-auto w-full max-w-3xl px-8 py-12">
       {/* Header */}
       <div className="flex flex-col gap-2">
-        <h1 className="text-2xl font-bold text-ak-content">Setup</h1>
+        <h1 className="text-2xl font-medium text-ak-content">Setup</h1>
         <p className="text-sm text-ak-content-secondary">
           Get started with agent-kit in two ways — use it standalone with the built-in theme, or integrate it with your existing design system.
         </p>
