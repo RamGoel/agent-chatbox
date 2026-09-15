@@ -45,7 +45,7 @@ export function UserMessage({
 
       {(content || children) && (
         <div
-          className="flex flex-col justify-center rounded-lg border border-ak-border bg-ak-surface-hover px-5 py-4"
+          className="flex flex-col justify-center rounded-lg border border-ak-border bg-ak-surface-hover px-3 py-2"
           style={{ maxWidth: "85%" }}
         >
           {content && <Markdown content={content} />}

@@ -11,7 +11,7 @@ export interface IconProps {
   className?: string;
 }
 
-const SIZE_PX: Record<string, number> = { xs: 14, sm: 16, md: 20 };
+const SIZE_PX: Record<string, number> = { xs: 10, sm: 14, md: 18 };
 
 const TONE_CLASS: Record<string, string> = {
   primary: "text-ak-content",

@@ -27,7 +27,7 @@ export function MessageActions({ actions, className }: MessageActionsProps) {
           aria-label={action.label}
           title={action.label}
           className={cn(
-            "inline-flex size-8 items-center justify-center rounded transition-colors",
+            "inline-flex size-4 items-center justify-center rounded transition-colors",
             "hover:bg-ak-surface-hover",
             action.active ? "bg-ak-surface-hover" : undefined
           )}

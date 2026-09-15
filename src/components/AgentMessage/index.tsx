@@ -48,19 +48,12 @@ export function AgentMessage({
   return (
     <div
       className={cn(
-        "group flex w-full shrink-0 flex-col gap-2",
+        "group flex w-full shrink-0 flex-col gap-1",
         className
       )}
     >
       {content && <Markdown content={content} />}
       {children}
-
-      {streaming && (
-        <span
-          className="inline-block h-4 w-2 animate-pulse bg-ak-content"
-          style={{ animationDuration: "0.8s" }}
-        />
-      )}
 
       {!streaming && allActions.length > 0 && (
         <MessageActions actions={allActions} />
