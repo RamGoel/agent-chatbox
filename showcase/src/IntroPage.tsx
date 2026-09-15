@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { CodeBlock } from "agent-kit";
 
 const INSTALL_CMD = "npm install agent-kit";
 
@@ -10,40 +11,13 @@ const ASCII_ART = ` █████╗  ██████╗ ██████
 ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═══╝   ╚═╝      ╚═╝  ╚═╝╚═╝   ╚═╝   `;
 
 // ============================================================================
-// Install command with copy
-// ============================================================================
-
-function InstallCommand() {
-  const [copied, setCopied] = React.useState(false);
-  const handleCopy = () => {
-    navigator.clipboard.writeText(INSTALL_CMD);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-  return (
-    <button
-      onClick={handleCopy}
-      className="mt-8 flex w-full max-w-md items-center gap-3 rounded-lg border border-ak-border bg-ak-surface px-4 py-3 text-left transition-colors hover:border-ak-border-hover"
-    >
-      <span className="text-ak-content-tertiary">$</span>
-      <code className="flex-1 font-mono text-sm text-ak-content">
-        {INSTALL_CMD}
-      </code>
-      <span className="text-xs text-ak-content-tertiary">
-        {copied ? "Copied!" : "Click to copy"}
-      </span>
-    </button>
-  );
-}
-
-// ============================================================================
 // Page
 // ============================================================================
 
 export function IntroPage() {
   return (
     <div className="flex w-full flex-col">
-      <section className="relative flex flex-col items-center px-8 py-16">
+      <section className="relative flex h-full flex-col items-center justify-center px-8 py-16">
         {/* Gradient beam */}
         <div
           aria-hidden="true"
@@ -60,10 +34,7 @@ export function IntroPage() {
         />
 
         {/* Hero */}
-        <div
-          className="relative flex flex-col items-center justify-center py-16"
-          style={{ minHeight: "calc(100vh - 450px)" }}
-        >
+        <div className="relative flex flex-col items-center justify-center">
           <pre
             className="font-mono text-ak-content overflow-x-auto select-none"
             style={{
@@ -80,9 +51,10 @@ export function IntroPage() {
             Independent, themeable, zero-config.
           </p>
 
-          <InstallCommand />
+          <div className="mt-8 w-full max-w-md">
+            <CodeBlock code={INSTALL_CMD} language="bash" minHeight={0} />
+          </div>
         </div>
-
       </section>
     </div>
   );
