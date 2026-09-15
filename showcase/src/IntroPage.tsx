@@ -16,7 +16,7 @@ const ASCII_ART = ` █████╗  ██████╗ ██████
 
 export function IntroPage() {
   return (
-    <div className="flex w-full flex-col">
+    <div className="flex h-full w-full flex-col">
       <section className="relative flex h-full flex-col items-center justify-center px-8 py-16">
         {/* Gradient beam */}
         <div
