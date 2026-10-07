@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Install the chat-kit skill for one agent, and the npm package when it
+# Install the agent-chatbox skill for one agent, and the npm package when it
 # belongs to the current project.
 #
 #   curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-kit/main/skills/install.sh | bash -s -- cursor
@@ -47,12 +47,12 @@ for file in SKILL.md reference.md; do
   curl -fsSL "${BASE}/skills/agent-kit/${file}" -o "${DEST}/${file}"
 done
 
-echo "Installed the chat-kit skill to ${DEST}"
+echo "Installed the agent-chatbox skill to ${DEST}"
 echo "${NOTE}"
 
 if [[ "$INSTALL_PKG" == 1 && -f package.json ]]; then
-  echo "Installing the chat-kit package"
-  npm install chat-kit
+  echo "Installing the agent-chatbox package"
+  npm install agent-chatbox
 elif [[ "$INSTALL_PKG" == 1 ]]; then
-  echo "No package.json here. Run \`npm install chat-kit\` inside your app."
+  echo "No package.json here. Run \`npm install agent-chatbox\` inside your app."
 fi

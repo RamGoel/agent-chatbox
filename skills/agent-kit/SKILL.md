@@ -1,25 +1,25 @@
 ---
 name: agent-kit
 description: >-
-  Build AI agent chat interfaces with the chat-kit React components
+  Build AI agent chat interfaces with the agent-chatbox React components
   (Conversation, ChatInput, AgentMessage, UserMessage, Reasoning, ToolCall,
   Plan, AgentQuestion, CodeBlock, Attachments). Use when adding a chat UI,
   agent transcript, streaming messages, tool calls, a reasoning trace, an
-  agent plan, or when the user mentions chat-kit.
+  agent plan, or when the user mentions agent-chatbox.
 ---
 
-# chat-kit
+# agent-chatbox
 
 React components for an agent chat. The stylesheet is precompiled. Do not add Tailwind, a theme provider, or a markdown library for these components.
 
 ## Setup
 
 ```tsx
-import { Conversation, type ConversationMessage } from "chat-kit";
-import "chat-kit/styles.css";
+import { Conversation, type ConversationMessage } from "agent-chatbox";
+import "agent-chatbox/styles.css";
 ```
 
-Import `chat-kit/styles.css` once, in the app entry, before any `--ak-*` overrides. Without it every component renders unstyled. It does not restyle the host page.
+Import `agent-chatbox/styles.css` once, in the app entry, before any `--ak-*` overrides. Without it every component renders unstyled. It does not restyle the host page.
 
 `Conversation` is `h-full`. The parent needs a real height (`height: 100%` on a sized parent, or a fixed height). A parent with no height collapses the thread.
 
@@ -105,7 +105,7 @@ Pass model text as a markdown string. Do not convert it to HTML and do not sanit
 - Do not render a `Plan` next to `Conversation` for the same `planEntries`. The first plan renders inline. A later unfinished plan also floats above the input.
 - Give `CodeBlock` a `language` (`tsx`, `python`, `bash`, `diff`, …). The default is plain text, so highlighting silently does nothing. Do not run Prettier on the string first. What the user sees should be what the model wrote.
 - Image attachments need `url`. Without it, an image file renders as a chip.
-- Theme with `--ak-*` variables in a stylesheet loaded after `chat-kit/styles.css`. `className` is for layout, not color. Dark mode is a `dark` class on an ancestor. There is no `theme` prop.
+- Theme with `--ak-*` variables in a stylesheet loaded after `agent-chatbox/styles.css`. `className` is for layout, not color. Dark mode is a `dark` class on an ancestor. There is no `theme` prop.
 - `ChatInput`: Enter submits, Shift+Enter inserts a newline, Escape stops while generating.
 
 Prop tables, tool-content shapes, and the variable list are in [reference.md](reference.md).
