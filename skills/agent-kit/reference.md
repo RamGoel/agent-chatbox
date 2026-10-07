@@ -34,11 +34,22 @@ The first plan in a thread renders inline. A later plan that is not fully comple
 
 ## AgentQuestion
 
-Single question: `question`, `type` (`"text"` | `"single-select"` | `"multi-select"`), `options`, `onSubmit(answer: string)`.
+```tsx
+<AgentQuestion
+  questions={[
+    { header: "Environment", question: "Where should this go?", type: "single-select", options: [
+      { label: "Staging", value: "staging" },
+      { label: "Production", value: "production" },
+    ]},
+    { header: "Note", question: "Anything else?", type: "text" },
+  ]}
+  onSubmitMultiple={(answers) => save(answers)}
+/>
+```
 
-Several questions: `questions` (each `{ question, header?, type?, options?, allowOther? }`) and `onSubmitMultiple(answers)`.
+`answers` is keyed by `header`, or by the question text when there is no header. Pass `answer` (one question) or `answers` (several) to show the resolved, read-only state instead of the form.
 
-`single-select` submits on click unless `allowOther` is set. Pre-fill with `answer` or `answers` to show the resolved state.
+`skipLabel={null}` hides Skip. `secret` uses a password input.
 
 ## ChatInput
 

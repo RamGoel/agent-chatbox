@@ -115,13 +115,19 @@ Load your overrides after `agent-kit/styles.css`. The full list of variables:
 
 ## Agent skill
 
-One command installs the package and a Cursor skill that knows this API. Run it from your app's root:
+Run one of these from your app's root. Each installs the same skill in a different place, and the project targets also run `npm install agent-kit` when a `package.json` is present.
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-kit/main/skills/install.sh | bash
-```
+# This project, for Cursor. Cloud Agents that check out the repo get it too.
+curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-kit/main/skills/install.sh | bash -s -- cursor
 
-The skill lands in `.cursor/skills/agent-kit`. Cursor loads it when you ask for a chat UI.
+# Every project on this machine. Then turn on Settings → Agents → Sync Skills for Cloud Agents.
+curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-kit/main/skills/install.sh | bash -s -- cloud
+
+# Claude Code (.claude/skills) or Codex (.agents/skills)
+curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-kit/main/skills/install.sh | bash -s -- claude
+curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-kit/main/skills/install.sh | bash -s -- codex
+```
 
 ## Development
 
