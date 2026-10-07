@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Add an installable agent skill (`skills/agent-kit`) and `skills/install.sh`. The Skills page offers Cursor, Cloud Agents, Claude Code, and Codex, and the project targets also install the npm package.
+- Add an installable agent skill (`skills/agent-chatbox`) and `skills/install.sh`. The Skills page offers Cursor, Cloud Agents, Claude Code, and Codex, and the project targets also install the npm package.
 
 ## 0.1.0
 

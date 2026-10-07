@@ -6,11 +6,11 @@
   "author": "Ram Goel <rgoel766@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RamGoel/agent-kit.git"
+    "url": "git+https://github.com/RamGoel/agent-chatbox.git"
   },
-  "homepage": "https://github.com/RamGoel/agent-kit#readme",
+  "homepage": "https://github.com/RamGoel/agent-chatbox#readme",
   "bugs": {
-    "url": "https://github.com/RamGoel/agent-kit/issues"
+    "url": "https://github.com/RamGoel/agent-chatbox/issues"
   },
   "keywords": [
     "react",
