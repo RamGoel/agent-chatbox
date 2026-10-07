@@ -1,5 +1,5 @@
 {
-  "name": "agent-kit",
+  "name": "agent-chatbox",
   "version": "0.1.0",
   "description": "Standalone React components for building AI agent chat interfaces",
   "license": "MIT",

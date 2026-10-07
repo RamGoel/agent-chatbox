@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { CodeBlock } from "agent-kit";
+import { CodeBlock } from "agent-chatbox";
 import { Check, Palette, Package, Terminal } from "lucide-react";
 
 // ============================================================================
@@ -86,18 +86,18 @@ function StandaloneSetup() {
     <div className="flex flex-col gap-8">
       <Step number={1} title="Install the package">
         <p className="text-sm text-ak-content-secondary">
-          agent-kit ships with its own theming via CSS variables — no external design system required.
+          agent-chatbox ships with its own theming via CSS variables — no external design system required.
         </p>
-        <Snippet code="npm install agent-kit" />
+        <Snippet code="npm install agent-chatbox" />
       </Step>
 
       <Step number={2} title="Import the styles">
         <p className="text-sm text-ak-content-secondary">
-          Import the stylesheet once in your app entry point. It contains the precompiled component styles and the default theme, and only affects agent-kit components.
+          Import the stylesheet once in your app entry point. It contains the precompiled component styles and the default theme, and only affects agent-chatbox components.
         </p>
         <Snippet
           language="tsx"
-          code={`import "agent-kit/styles.css";`}
+          code={`import "agent-chatbox/styles.css";`}
         />
       </Step>
 
@@ -107,7 +107,7 @@ function StandaloneSetup() {
         </p>
         <Snippet
           language="tsx"
-          code={`import { Conversation, ChatInput } from "agent-kit";
+          code={`import { Conversation, ChatInput } from "agent-chatbox";
 
 function App() {
   return (
@@ -158,16 +158,16 @@ function ExistingDesignSystemSetup() {
   return (
     <div className="flex flex-col gap-8">
       <Step number={1} title="Install the package">
-        <Snippet code="npm install agent-kit" />
+        <Snippet code="npm install agent-chatbox" />
       </Step>
 
       <Step number={2} title="Map CSS variables to your design tokens">
         <p className="text-sm text-ak-content-secondary">
-          agent-kit uses a flat set of <code className="rounded bg-ak-surface-hover px-1 text-xs">--ak-*</code> CSS variables. Point them at your existing design system tokens so components blend in seamlessly.
+          agent-chatbox uses a flat set of <code className="rounded bg-ak-surface-hover px-1 text-xs">--ak-*</code> CSS variables. Point them at your existing design system tokens so components blend in seamlessly.
         </p>
         <Snippet
           language="css"
-          code={`/* Map agent-kit variables to your design system */
+          code={`/* Map agent-chatbox variables to your design system */
 :root {
   --ak-border: var(--your-border-color);
   --ak-border-hover: var(--your-border-hover);
@@ -192,7 +192,7 @@ function ExistingDesignSystemSetup() {
 
       <Step number={3} title="Import the stylesheet before your tokens">
         <p className="text-sm text-ak-content-secondary">
-          Import <code className="rounded bg-ak-surface-hover px-1 text-xs">agent-kit/styles.css</code> for the component styles, then load your variable mappings after it so they take precedence over the defaults. It doesn't reset or restyle anything outside agent-kit components.
+          Import <code className="rounded bg-ak-surface-hover px-1 text-xs">agent-chatbox/styles.css</code> for the component styles, then load your variable mappings after it so they take precedence over the defaults. It doesn't reset or restyle anything outside agent-chatbox components.
         </p>
         <div className="flex items-center gap-2 rounded-lg border border-ak-border bg-ak-surface-hover px-3 py-2">
           <Check size={14} className="text-green-600" />
@@ -208,8 +208,8 @@ function ExistingDesignSystemSetup() {
         </p>
         <Snippet
           language="tsx"
-          code={`import { Conversation } from "agent-kit";
-import "agent-kit/styles.css";
+          code={`import { Conversation } from "agent-chatbox";
+import "agent-chatbox/styles.css";
 import "./design-tokens.css"; // your --ak-* mappings
 
 function App() {
@@ -229,7 +229,7 @@ function App() {
         </p>
         <Snippet
           language="tsx"
-          code={`import { ChatInput } from "agent-kit";
+          code={`import { ChatInput } from "agent-chatbox";
 
 <ChatInput
   className="rounded-full"
@@ -254,7 +254,7 @@ export function SetupPage() {
       <div className="flex flex-col gap-2">
         <h1 className="text-2xl font-medium text-ak-content">Setup</h1>
         <p className="text-sm text-ak-content-secondary">
-          Get started with agent-kit in two ways — use it standalone with the built-in theme, or integrate it with your existing design system.
+          Get started with agent-chatbox in two ways — use it standalone with the built-in theme, or integrate it with your existing design system.
         </p>
       </div>
 

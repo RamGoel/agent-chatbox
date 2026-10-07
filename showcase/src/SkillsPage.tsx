@@ -1,4 +1,4 @@
-import { CodeBlock } from "agent-kit";
+import { CodeBlock } from "agent-chatbox";
 
 const INSTALL = `# Cursor, this project. Cloud Agents that check out the repo get it too.
 curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-kit/main/skills/install.sh | bash -s -- cursor
@@ -13,10 +13,10 @@ curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-kit/main/skills/insta
 curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-kit/main/skills/install.sh | bash -s -- codex`;
 
 const PROMPT =
-  "Add a chat thread with agent-kit. Include a user message, a tool call, and a stop button while the reply is streaming.";
+  "Add a chat thread with agent-chatbox. Include a user message, a tool call, and a stop button while the reply is streaming.";
 
 const HELPS = [
-  "Imports agent-kit/styles.css, so the components are styled.",
+  "Imports agent-chatbox/styles.css, so the components are styled.",
   "Gives Conversation a parent with a height, so the thread is visible.",
   "Renders AgentQuestion beside the thread, because Conversation ignores a question field on a message.",
   "Passes a language to CodeBlock, so code is highlighted instead of plain text.",
@@ -29,7 +29,7 @@ export function SkillsPage() {
       <div className="flex flex-col gap-2">
         <h1 className="text-2xl font-medium text-ak-content">Skills</h1>
         <p className="text-sm text-ak-content-secondary">
-          Install the agent-kit package and a skill in one command. The skill teaches your coding agent the component API, the message shape, and how theming works, so it builds chats with these components instead of inventing its own.
+          Install the agent-chatbox package and a skill in one command. The skill teaches your coding agent the component API, the message shape, and how theming works, so it builds chats with these components instead of inventing its own.
         </p>
       </div>
 
@@ -43,7 +43,7 @@ export function SkillsPage() {
       <div className="mt-10 flex flex-col gap-3">
         <h2 className="text-sm font-semibold text-ak-content">Install</h2>
         <p className="text-sm text-ak-content-secondary">
-          Run one of these from your app's root. The comment on each line says where the skill is installed. Project commands also run <code className="rounded bg-ak-surface-hover px-1 text-xs">npm install agent-kit</code> when a <code className="rounded bg-ak-surface-hover px-1 text-xs">package.json</code> is present.
+          Run one of these from your app's root. The comment on each line says where the skill is installed. Project commands also run <code className="rounded bg-ak-surface-hover px-1 text-xs">npm install agent-chatbox</code> when a <code className="rounded bg-ak-surface-hover px-1 text-xs">package.json</code> is present.
         </p>
         <CodeBlock code={INSTALL} language="bash" minHeight={0} />
       </div>
@@ -52,7 +52,7 @@ export function SkillsPage() {
         <h2 className="text-sm font-semibold text-ak-content">What you get</h2>
         <ul className="flex list-disc flex-col gap-1.5 pl-5 text-sm text-ak-content-secondary">
           <li>
-            <span className="font-medium text-ak-content">agent-kit</span> added to your dependencies, plus the stylesheet import your agent is told to keep.
+            <span className="font-medium text-ak-content">agent-chatbox</span> added to your dependencies, plus the stylesheet import your agent is told to keep.
           </li>
           <li>
             A project skill your agent loads when you ask for a chat UI, agent transcript, tool calls, or reasoning display.

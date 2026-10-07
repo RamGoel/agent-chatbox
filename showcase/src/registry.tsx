@@ -14,7 +14,7 @@ import {
   type Attachment,
   type ConversationMessage,
   type PlanEntry,
-} from "agent-kit";
+} from "agent-chatbox";
 import { useState } from "react";
 
 // ============================================================================
@@ -579,10 +579,10 @@ export const REGISTRY: ComponentConfig[] = [
       {
         name: "Bash",
         description: "Terminal command output.",
-        code: `<CodeBlock code="npm install agent-kit" language="bash" />`,
+        code: `<CodeBlock code="npm install agent-chatbox" language="bash" />`,
         render: () => (
           <div className="w-full max-w-md">
-            <CodeBlock code="npm install agent-kit" language="bash" />
+            <CodeBlock code="npm install agent-chatbox" language="bash" />
           </div>
         ),
       },
