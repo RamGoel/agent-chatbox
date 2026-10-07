@@ -113,6 +113,16 @@ Load your overrides after `agent-kit/styles.css`. The full list of variables:
 | `--ak-code-surface`, `--ak-code-content` | Code block background and text |
 | `--ak-font-sans`, `--ak-font-mono` | Fonts (default: system font stack) |
 
+## Agent skill
+
+One command installs the package and a Cursor skill that knows this API. Run it from your app's root:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-kit/main/skills/install.sh | bash
+```
+
+The skill lands in `.cursor/skills/agent-kit`. Cursor loads it when you ask for a chat UI.
+
 ## Development
 
 ```bash

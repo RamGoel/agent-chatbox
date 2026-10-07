@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Add an installable Cursor skill (`skills/agent-kit`) and `skills/install.sh`, which installs the package and the skill in one command. Documented on the Skills page and in the README.
+
 ## 0.1.0
 
 First public release.

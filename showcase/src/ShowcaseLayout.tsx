@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { flushSync } from "react-dom";
 import { Link, useLocation, Outlet } from "react-router-dom";
-import { Search, Sun, Moon, LayoutPanelTop, House, Settings } from "lucide-react";
+import { Search, Sun, Moon, LayoutPanelTop, House, Settings, Sparkles } from "lucide-react";
 import { buildMenu } from "./registry";
 
 // ============================================================================
@@ -11,7 +11,7 @@ import { buildMenu } from "./registry";
 interface MenuItem {
   label: string;
   href: string;
-  icon: "home" | "component" | "settings"
+  icon: "home" | "component" | "settings" | "skills"
 }
 
 interface MenuGroup {
@@ -22,6 +22,7 @@ interface MenuGroup {
 const MENU: (MenuItem | MenuGroup)[] = [
   { label: "Introduction", href: "/", icon: "home" },
   { label: "Setup", href: "/setup", icon: "settings" },
+  { label: "Skills", href: "/skills", icon: "skills" },
   {
     label: "AGENT",
     items: buildMenu().map((m) => ({ ...m, icon: "component" as const })),
@@ -71,7 +72,15 @@ function SidebarItem({
         : "text-ak-content-secondary hover:bg-ak-surface-hover hover:text-ak-content"
         }`}
     >
-      {item.icon === "home" ? <House size={16} strokeWidth={1.5} /> : item.icon === 'settings' ? <Settings size={16} strokeWidth={1.5} /> : <LayoutPanelTop size={16} strokeWidth={1.5} />}
+      {item.icon === "home" ? (
+        <House size={16} strokeWidth={1.5} />
+      ) : item.icon === "settings" ? (
+        <Settings size={16} strokeWidth={1.5} />
+      ) : item.icon === "skills" ? (
+        <Sparkles size={16} strokeWidth={1.5} />
+      ) : (
+        <LayoutPanelTop size={16} strokeWidth={1.5} />
+      )}
       {item.label}
     </Link>
   );
