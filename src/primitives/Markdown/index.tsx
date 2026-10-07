@@ -1,4 +1,6 @@
 import * as React from "react";
+import ReactMarkdown, { type Components } from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { cn } from "../../lib/cn";
 import { CodeBlock } from "../../components/CodeBlock";
 
@@ -12,141 +14,116 @@ export interface MarkdownProps {
 }
 
 // ============================================================================
-// Inline markdown renderer
+// Helpers
 // ============================================================================
 
-function renderInline(text: string, keyPrefix: string): React.ReactNode[] {
-  const nodes: React.ReactNode[] = [];
-  const pattern = /(\*\*([^*]+)\*\*)|(`([^`]+)`)|(\[([^\]]+)\]\(([^)]+)\))/g;
-  let lastIndex = 0;
-  let match: RegExpExecArray | null;
-  let i = 0;
-
-  while ((match = pattern.exec(text)) !== null) {
-    if (match.index > lastIndex) {
-      nodes.push(text.slice(lastIndex, match.index));
-    }
-    if (match[2]) {
-      nodes.push(
-        <strong key={`${keyPrefix}-b-${i}`} className="font-semibold">
-          {match[2]}
-        </strong>
-      );
-    } else if (match[4]) {
-      nodes.push(
-        <code
-          key={`${keyPrefix}-c-${i}`}
-          className="rounded bg-ak-surface-hover px-1 py-0.5 font-mono text-xs text-ak-content"
-        >
-          {match[4]}
-        </code>
-      );
-    } else if (match[6] && match[7]) {
-      nodes.push(
-        <a
-          key={`${keyPrefix}-l-${i}`}
-          href={match[7]}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-ak-primary underline underline-offset-2 hover:text-ak-primary-hover"
-        >
-          {match[6]}
-        </a>
-      );
-    }
-    lastIndex = match.index + match[0].length;
-    i++;
-  }
-  if (lastIndex < text.length) {
-    nodes.push(text.slice(lastIndex));
-  }
-  return nodes;
+interface HastNode {
+  type: string;
+  value?: string;
+  tagName?: string;
+  properties?: { className?: unknown };
+  children?: HastNode[];
 }
 
+function hastText(node: HastNode): string {
+  if (node.type === "text") return node.value ?? "";
+  return (node.children ?? []).map(hastText).join("");
+}
+
+function codeLanguage(node: HastNode | undefined): string {
+  const classes = node?.properties?.className;
+  if (!Array.isArray(classes)) return "text";
+  const lang = classes.find((c): c is string => typeof c === "string" && c.startsWith("language-"));
+  return lang ? lang.slice("language-".length) : "text";
+}
+
+const SAFE_URL = /^(https?:|mailto:|#|\/)/i;
+
 // ============================================================================
-// Block-level markdown renderer
+// Element mapping
 // ============================================================================
 
-function renderContent(content: string, keyPrefix: string): React.ReactNode[] {
-  const nodes: React.ReactNode[] = [];
-  const codeBlockPattern = /```(\w+)?\n?([\s\S]*?)```/g;
-  let lastIndex = 0;
-  let match: RegExpExecArray | null;
-  let i = 0;
-
-  while ((match = codeBlockPattern.exec(content)) !== null) {
-    if (match.index > lastIndex) {
-      const textPart = content.slice(lastIndex, match.index).trim();
-      if (textPart) {
-        nodes.push(...renderParagraphs(textPart, `${keyPrefix}-t-${i}`));
-      }
-    }
-    const lang = match[1] || "tsx";
-    const code = match[2].trimEnd();
-    nodes.push(
-      <div key={`${keyPrefix}-code-${i}`}>
-        <CodeBlock code={code} language={lang} noBorder={false} minHeight={0} />
-      </div>
+const components: Components = {
+  h1: ({ children }) => <h1 className="mt-1 text-lg font-semibold">{children}</h1>,
+  h2: ({ children }) => <h2 className="mt-1 text-lg font-semibold">{children}</h2>,
+  h3: ({ children }) => <h3 className="mt-1 text-base font-semibold">{children}</h3>,
+  h4: ({ children }) => <h4 className="font-semibold">{children}</h4>,
+  h5: ({ children }) => <h5 className="font-semibold">{children}</h5>,
+  h6: ({ children }) => <h6 className="font-semibold">{children}</h6>,
+  p: ({ children }) => <p className="whitespace-pre-wrap">{children}</p>,
+  strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
+  em: ({ children }) => <em className="italic">{children}</em>,
+  del: ({ children }) => <del className="line-through">{children}</del>,
+  a: ({ href, children }) =>
+    href && SAFE_URL.test(href) ? (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-ak-primary underline underline-offset-2 hover:text-ak-primary-hover"
+      >
+        {children}
+      </a>
+    ) : (
+      <span>{children}</span>
+    ),
+  img: ({ src, alt }) =>
+    typeof src === "string" && SAFE_URL.test(src) ? (
+      <a
+        href={src}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-ak-primary underline underline-offset-2 hover:text-ak-primary-hover"
+      >
+        {alt || src}
+      </a>
+    ) : null,
+  ul: ({ children }) => <ul className="flex list-disc flex-col gap-1 pl-5">{children}</ul>,
+  ol: ({ children, start }) => (
+    <ol start={start} className="flex list-decimal flex-col gap-1 pl-5">
+      {children}
+    </ol>
+  ),
+  li: ({ children }) => <li className="[&>ol]:mt-1 [&>ul]:mt-1">{children}</li>,
+  blockquote: ({ children }) => (
+    <blockquote className="flex flex-col gap-2 border-l-2 border-ak-border pl-3 text-ak-content-secondary">
+      {children}
+    </blockquote>
+  ),
+  hr: () => <hr className="border-t border-ak-border" />,
+  table: ({ children }) => (
+    <div className="ak-scroll overflow-x-auto">
+      <table className="w-full text-left">{children}</table>
+    </div>
+  ),
+  th: ({ children, style }) => (
+    <th style={style} className="border-b border-ak-border px-2 py-1 font-semibold">
+      {children}
+    </th>
+  ),
+  td: ({ children, style }) => (
+    <td style={style} className="border-b border-ak-border px-2 py-1">
+      {children}
+    </td>
+  ),
+  code: ({ children }) => (
+    <code className="rounded bg-ak-surface-hover px-1 py-0.5 font-mono text-xs">
+      {children}
+    </code>
+  ),
+  pre: ({ node }) => {
+    const codeNode = (node as HastNode | undefined)?.children?.find(
+      (c) => c.type === "element" && c.tagName === "code"
     );
-    lastIndex = match.index + match[0].length;
-    i++;
-  }
-
-  if (lastIndex < content.length) {
-    const textPart = content.slice(lastIndex).trim();
-    if (textPart) {
-      nodes.push(...renderParagraphs(textPart, `${keyPrefix}-t-end`));
-    }
-  }
-
-  return nodes;
-}
-
-function renderParagraphs(text: string, keyPrefix: string): React.ReactNode[] {
-  return text.split(/\n\n+/).map((para, idx) => {
-    const trimmed = para.trim();
-    if (!trimmed) return null;
-
-    if (trimmed.startsWith("### ")) {
-      return (
-        <div key={`${keyPrefix}-p-${idx}`} className={idx > 0 ? "mt-3" : ""}>
-          <span className="text-base font-semibold text-ak-content">
-            {renderInline(trimmed.slice(4), `${keyPrefix}-p-${idx}`)}
-          </span>
-        </div>
-      );
-    }
-    if (trimmed.startsWith("## ")) {
-      return (
-        <div key={`${keyPrefix}-p-${idx}`} className={idx > 0 ? "mt-3" : ""}>
-          <span className="text-lg font-semibold text-ak-content">
-            {renderInline(trimmed.slice(3), `${keyPrefix}-p-${idx}`)}
-          </span>
-        </div>
-      );
-    }
-    if (trimmed.startsWith("# ")) {
-      return (
-        <div key={`${keyPrefix}-p-${idx}`} className={idx > 0 ? "mt-3" : ""}>
-          <span className="text-lg font-semibold text-ak-content">
-            {renderInline(trimmed.slice(2), `${keyPrefix}-p-${idx}`)}
-          </span>
-        </div>
-      );
-    }
-
     return (
-      <div key={`${keyPrefix}-p-${idx}`}>
-        <p
-          className="text-sm text-ak-content"
-          style={{ whiteSpace: "pre-wrap" }}
-        >
-          {renderInline(trimmed, `${keyPrefix}-p-${idx}`)}
-        </p>
-      </div>
+      <CodeBlock
+        code={codeNode ? hastText(codeNode).replace(/\n$/, "") : ""}
+        language={codeLanguage(codeNode)}
+        minHeight={0}
+      />
     );
-  });
-}
+  },
+};
 
 // ============================================================================
 // Component
@@ -154,10 +131,15 @@ function renderParagraphs(text: string, keyPrefix: string): React.ReactNode[] {
 
 export function Markdown({ content, className }: MarkdownProps) {
   return (
-    <div className={cn("break-words leading-relaxed", className)}>
-      <div className="flex flex-col gap-2">
-        {renderContent(content, "mc")}
-      </div>
+    <div
+      className={cn(
+        "ak flex flex-col gap-2 break-words text-sm leading-relaxed text-ak-content",
+        className
+      )}
+    >
+      <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
+        {content}
+      </ReactMarkdown>
     </div>
   );
 }

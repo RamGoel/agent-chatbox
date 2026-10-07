@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import type { Highlighter } from "shiki";
 import { cn } from "../../lib/cn";
 import { Copy, Check } from "lucide-react";
 
@@ -11,11 +12,42 @@ export interface CodeBlockProps {
   language?: string;
 }
 
+const THEME = "github-dark";
+const PLAIN_LANGS = new Set(["text", "plaintext", "plain", "txt", ""]);
+
+let highlighterPromise: Promise<Highlighter> | null = null;
+
+function getHighlighter(): Promise<Highlighter> {
+  if (!highlighterPromise) {
+    highlighterPromise = import("shiki")
+      .then((shiki) => shiki.createHighlighter({ themes: [THEME], langs: [] }))
+      .catch((err) => {
+        highlighterPromise = null;
+        throw err;
+      });
+  }
+  return highlighterPromise;
+}
+
+async function highlight(code: string, language: string): Promise<string> {
+  const [{ bundledLanguages }, highlighter] = await Promise.all([
+    import("shiki"),
+    getHighlighter(),
+  ]);
+  const requested = language.toLowerCase();
+  const lang =
+    !PLAIN_LANGS.has(requested) && requested in bundledLanguages ? requested : "text";
+  if (lang !== "text" && !highlighter.getLoadedLanguages().includes(lang)) {
+    await highlighter.loadLanguage(lang as keyof typeof bundledLanguages);
+  }
+  return highlighter.codeToHtml(code, { lang, theme: THEME });
+}
+
 export function CodeBlock({
   code,
   label,
   minHeight = 120,
-  language = "tsx",
+  language = "text",
   noBorder = false,
   noCopy = false,
 }: CodeBlockProps) {
@@ -24,55 +56,27 @@ export function CodeBlock({
 
   useEffect(() => {
     let cancelled = false;
-    (async () => {
-      try {
-        const [shiki, prettierMod] = await Promise.all([
-          import("shiki"),
-          import("prettier/standalone"),
-        ]);
-        const parserMod = await import("prettier/plugins/typescript");
-        const estreeMod = await import("prettier/plugins/estree");
-
-        let formattedCode = code;
-        try {
-          formattedCode = await prettierMod.format(code, {
-            parser: "tsx",
-            plugins: [parserMod.default, estreeMod.default],
-            semi: true,
-            singleQuote: false,
-            tabWidth: 2,
-          });
-        } catch {
-          // If Prettier fails (e.g. bash language), use raw code
-        }
-
-        const highlighter = await shiki.createHighlighter({
-          themes: ["github-dark"],
-          langs: ["tsx", "jsx", "typescript", "bash", "json", "diff"],
-        });
-        const out = highlighter.codeToHtml(formattedCode.trim(), {
-          lang: language,
-          theme: "github-dark",
-        });
+    highlight(code.trimEnd(), language)
+      .then((out) => {
         if (!cancelled) setHtml(out);
-        highlighter.dispose();
-      } catch {
+      })
+      .catch(() => {
         if (!cancelled) setHtml("");
-      }
-    })();
+      });
     return () => {
       cancelled = true;
     };
   }, [code, language]);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    navigator.clipboard?.writeText(code).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }, () => {});
   };
 
   return (
-    <div className="flex flex-col gap-2" style={{ minWidth: 280 }}>
+    <div className="ak ak-codeblock flex flex-col gap-2" style={{ minWidth: 280 }}>
       {label && (
         <span className="text-xs font-medium text-ak-content-tertiary">
           {label}
@@ -82,14 +86,17 @@ export function CodeBlock({
         className={cn(!noBorder && "rounded-lg border border-ak-border", "overflow-hidden")}
         style={{
           minHeight,
-          backgroundColor: "#24292e",
+          backgroundColor: "var(--ak-code-surface)",
+          color: "var(--ak-code-content)",
           position: "relative",
         }}
       >
         {!noCopy && (
           <button
+            type="button"
             onClick={handleCopy}
             title="Copy code"
+            aria-label={copied ? "Copied" : "Copy code"}
             className="absolute right-2 top-2 z-10 flex size-8 items-center justify-center rounded-lg border border-ak-border bg-ak-surface text-ak-content-secondary transition-colors hover:bg-ak-surface-hover hover:text-ak-content"
           >
             {copied ? <Check size={14} /> : <Copy size={14} />}
@@ -112,10 +119,8 @@ export function CodeBlock({
             style={{
               margin: 0,
               padding: "12px",
-              fontFamily: "var(--ak-font-mono, monospace)",
               fontSize: 13,
               lineHeight: 1.6,
-              color: "#e4e4e7",
               whiteSpace: "pre-wrap",
               wordBreak: "break-word",
             }}

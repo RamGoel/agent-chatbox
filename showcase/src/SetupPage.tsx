@@ -93,7 +93,7 @@ function StandaloneSetup() {
 
       <Step number={2} title="Import the styles">
         <p className="text-sm text-ak-content-secondary">
-          Import the stylesheet once in your app entry point. This sets up the default theme and the Matter font.
+          Import the stylesheet once in your app entry point. It contains the precompiled component styles and the default theme, and only affects agent-kit components.
         </p>
         <Snippet
           language="tsx"
@@ -182,15 +182,17 @@ function ExistingDesignSystemSetup() {
   --ak-content: var(--your-text);
   --ak-content-secondary: var(--your-text-muted);
   --ak-content-tertiary: var(--your-text-subtle);
+  --ak-code-surface: var(--your-code-bg);
+  --ak-code-content: var(--your-code-fg);
   --ak-font-sans: var(--your-font-sans);
   --ak-font-mono: var(--your-font-mono);
 }`}
         />
       </Step>
 
-      <Step number={3} title="Skip the built-in stylesheet">
+      <Step number={3} title="Import the stylesheet before your tokens">
         <p className="text-sm text-ak-content-secondary">
-          Don't import <code className="rounded bg-ak-surface-hover px-1 text-xs">agent-kit/styles.css</code>. Instead, define the variable mappings in your own stylesheet alongside your design tokens.
+          Import <code className="rounded bg-ak-surface-hover px-1 text-xs">agent-kit/styles.css</code> for the component styles, then load your variable mappings after it so they take precedence over the defaults. It doesn't reset or restyle anything outside agent-kit components.
         </p>
         <div className="flex items-center gap-2 rounded-lg border border-ak-border bg-ak-surface-hover px-3 py-2">
           <Check size={14} className="text-green-600" />
@@ -207,7 +209,8 @@ function ExistingDesignSystemSetup() {
         <Snippet
           language="tsx"
           code={`import { Conversation } from "agent-kit";
-// No styles.css import — your design tokens provide the variables
+import "agent-kit/styles.css";
+import "./design-tokens.css"; // your --ak-* mappings
 
 function App() {
   return (

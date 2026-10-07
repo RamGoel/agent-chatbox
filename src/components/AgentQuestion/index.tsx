@@ -66,6 +66,7 @@ function OptionRow({
   return (
     <button
       type="button"
+      aria-pressed={!!selected}
       onMouseDown={(e) => e.preventDefault()}
       onClick={(e) => {
         e.stopPropagation();
@@ -120,6 +121,7 @@ function TextInput({
     <input
       type={secret ? "password" : "text"}
       placeholder={placeholder}
+      aria-label={placeholder}
       value={value}
       onChange={(e) => onChange(e.target.value)}
       onKeyDown={(e) => {
@@ -295,7 +297,7 @@ function ResolvedView({
   return (
     <div
       className={cn(
-        "w-full shrink-0 rounded-lg border border-ak-border bg-ak-surface-hover px-3 py-2.5",
+        "ak w-full shrink-0 rounded-lg border border-ak-border bg-ak-surface-hover px-3 py-2.5",
         className
       )}
     >
@@ -426,7 +428,7 @@ export function AgentQuestion({
   // ---- Render ----
 
   return (
-    <div className={cn("w-full shrink-0", className)}>
+    <div className={cn("ak w-full shrink-0", className)}>
       <div className="overflow-hidden rounded-lg border border-ak-border bg-ak-surface shadow-sm">
         {/* Content */}
         <div className={cn("flex flex-col px-3 py-2.5", isMulti ? "gap-4" : "gap-1.5")}>

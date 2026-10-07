@@ -589,10 +589,10 @@ export const REGISTRY: ComponentConfig[] = [
       {
         name: "No Copy",
         description: "Without the copy button.",
-        code: `<CodeBlock code="const x = 42;" noCopy />`,
+        code: `<CodeBlock code="const x = 42;" language="ts" noCopy />`,
         render: () => (
           <div className="w-full max-w-md">
-            <CodeBlock code="const x = 42;" noCopy />
+            <CodeBlock code="const x = 42;" language="ts" noCopy />
           </div>
         ),
       },

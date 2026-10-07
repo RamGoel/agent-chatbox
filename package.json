@@ -1,26 +1,49 @@
 {
   "name": "agent-kit",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Standalone React components for building AI agent chat interfaces",
+  "license": "MIT",
+  "author": "Ram Goel <rgoel766@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ram-sarvam/agent-kit.git"
+  },
+  "homepage": "https://github.com/ram-sarvam/agent-kit#readme",
+  "bugs": {
+    "url": "https://github.com/ram-sarvam/agent-kit/issues"
+  },
+  "keywords": [
+    "react",
+    "ai",
+    "agent",
+    "chat",
+    "llm",
+    "components",
+    "ui"
+  ],
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
     },
     "./styles.css": "./dist/styles.css"
   },
+  "sideEffects": [
+    "*.css"
+  ],
   "files": [
     "dist"
   ],
   "scripts": {
     "dev": "vite showcase",
-    "build": "tsup && cp src/styles.css dist/styles.css",
+    "build": "tsup && tailwindcss -i src/styles.css -o dist/styles.css --postcss --minify",
     "build:showcase": "vite build showcase",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run typecheck && npm run build"
   },
   "peerDependencies": {
     "react": ">=18",
@@ -32,10 +55,10 @@
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
-    "lucide-react": "^1.46.0",
     "postcss": "^8.4.49",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-router-dom": "^7.18.4",
     "tailwindcss": "^3.4.17",
     "tsup": "^8.3.5",
     "typescript": "^5.7.2",
@@ -43,8 +66,9 @@
   },
   "dependencies": {
     "clsx": "^2.1.1",
-    "prettier": "^3.9.6",
-    "react-router-dom": "^7.18.3",
+    "lucide-react": "^1.52.0",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
     "shiki": "^4.4.3",
     "tailwind-merge": "^2.5.5"
   }

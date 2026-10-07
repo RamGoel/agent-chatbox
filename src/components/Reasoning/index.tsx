@@ -55,15 +55,17 @@ export function Reasoning({
   return (
     <div
       className={cn(
-        "overflow-hidden transition-opacity duration-200",
+        "ak overflow-hidden transition-opacity duration-200",
         collapsed ? "opacity-50 hover:opacity-80" : "opacity-80",
         className
       )}
     >
       {/* Header — click to toggle */}
-      <div
-        className="flex cursor-pointer select-none items-center gap-1 py-0.5"
+      <button
+        type="button"
+        className="flex cursor-pointer select-none items-center gap-1 py-0.5 text-left"
         onClick={() => setCollapsed((c) => !c)}
+        aria-expanded={!collapsed}
       >
         <Brain size={14} className="text-ak-content-secondary" />
         <span className="text-xs font-medium text-ak-content-secondary">
@@ -77,7 +79,7 @@ export function Reasoning({
         >
           <ChevronRight size={14} className="text-ak-content-tertiary" />
         </span>
-      </div>
+      </button>
 
       {/* Body — reasoning content */}
       {!collapsed && (

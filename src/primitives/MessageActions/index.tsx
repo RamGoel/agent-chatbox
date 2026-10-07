@@ -19,10 +19,12 @@ export function MessageActions({ actions, className }: MessageActionsProps) {
   if (!actions.length) return null;
 
   return (
-    <div className={cn("flex items-center gap-1 transition-opacity duration-150", className)}>
+    <div className={cn("ak flex items-center gap-1 transition-opacity duration-150", className)}>
       {actions.map((action) => (
         <button
+          type="button"
           key={action.key}
+          aria-pressed={action.active}
           onClick={action.onClick}
           aria-label={action.label}
           title={action.label}

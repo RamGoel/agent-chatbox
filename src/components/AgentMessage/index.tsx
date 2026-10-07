@@ -48,7 +48,7 @@ export function AgentMessage({
   return (
     <div
       className={cn(
-        "group flex w-full shrink-0 flex-col gap-1",
+        "ak group flex w-full shrink-0 flex-col gap-1",
         className
       )}
     >

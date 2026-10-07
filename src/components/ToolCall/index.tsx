@@ -356,19 +356,22 @@ export function ToolCall({
   return (
     <div
       className={cn(
-        "overflow-hidden transition-opacity duration-200",
+        "ak overflow-hidden transition-opacity duration-200",
         expanded ? "opacity-80" : "opacity-50 hover:opacity-80",
         className
       )}
       data-tool-call-id={toolCallId || ""}
     >
       {/* Header */}
-      <div
+      <button
+        type="button"
         className={cn(
-          "flex select-none items-center gap-1 py-0.5",
+          "flex w-full select-none items-center gap-1 py-0.5 text-left",
           hasContent ? "cursor-pointer" : "cursor-default"
         )}
         onClick={hasContent ? () => setExpanded((e) => !e) : undefined}
+        disabled={!hasContent}
+        aria-expanded={hasContent ? expanded : undefined}
       >
         <KindIcon size={14} className="text-ak-content-secondary" />
 
@@ -406,11 +409,11 @@ export function ToolCall({
           </span>
         )}
 
-        <div className="flex-1" />
+        <span className="flex-1" />
 
         {/* Error icon */}
-        {isError && <CircleAlert size={14} className="text-ak-content-tertiary" />}
-      </div>
+        {isError && <CircleAlert size={14} className="text-ak-content-tertiary" aria-label="Error" />}
+      </button>
 
       {/* Body */}
       {expanded && hasContent && (

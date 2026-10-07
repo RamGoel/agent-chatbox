@@ -31,7 +31,7 @@ export function ScrollToBottom({
       onClick={onClick}
       aria-label="Scroll to bottom"
       className={cn(
-        "flex size-9 items-center justify-center rounded-full",
+        "ak flex size-9 items-center justify-center rounded-full",
         "border border-ak-border bg-ak-surface text-ak-content-secondary",
         "shadow-md transition-all",
         "hover:bg-ak-surface-hover hover:text-ak-content",

@@ -35,7 +35,7 @@ export function UserMessage({
   return (
     <div
       className={cn(
-        "group flex w-full shrink-0 flex-col items-end gap-2",
+        "ak group flex w-full shrink-0 flex-col items-end gap-2",
         className
       )}
     >

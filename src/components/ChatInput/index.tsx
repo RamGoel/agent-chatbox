@@ -92,7 +92,7 @@ export function ChatInput({
   return (
     <div
       className={cn(
-        "flex flex-col gap-1 rounded-xl border border-ak-border bg-ak-surface p-1.5",
+        "ak flex flex-col gap-1 rounded-xl border border-ak-border bg-ak-surface p-1.5",
         "transition-colors focus-within:border-ak-border-hover",
         className
       )}
@@ -113,6 +113,7 @@ export function ChatInput({
         placeholder={placeholder}
         disabled={inputDisabled}
         rows={1}
+        aria-label={placeholder}
         className={cn(
           "w-full min-w-0 resize-none border-none bg-transparent py-1 pl-2.5 pr-1",
           "font-sans text-base leading-relaxed text-ak-content",

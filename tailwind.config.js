@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./src/**/*.{ts,tsx}", "./showcase/src/**/*.{ts,tsx}"],
+  content: ["./src/**/*.{ts,tsx}"],
+  corePlugins: { preflight: false },
   theme: {
     extend: {
       colors: {

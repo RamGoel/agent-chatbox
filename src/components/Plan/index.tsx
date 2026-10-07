@@ -51,7 +51,7 @@ function PlanPanel({ entries, className }: { entries: PlanEntry[]; className?: s
   return (
     <div
       className={cn(
-        "w-full shrink-0 rounded-lg border border-ak-border bg-ak-surface shadow-sm",
+        "ak w-full shrink-0 rounded-lg border border-ak-border bg-ak-surface shadow-sm",
         className
       )}
     >
@@ -105,7 +105,7 @@ function PlanStatusBar({ entries, className }: { entries: PlanEntry[]; className
   const currentStep = current?.content ?? "Working…";
 
   return (
-    <div className={cn("shrink-0", className)}>
+    <div className={cn("ak shrink-0", className)}>
       <div className="overflow-hidden rounded-lg border border-ak-border bg-ak-surface shadow-sm">
         {/* Header */}
         <button
@@ -113,6 +113,7 @@ function PlanStatusBar({ entries, className }: { entries: PlanEntry[]; className
           className="group flex w-full items-center gap-1.5 px-2.5 py-1.5 text-left transition-colors hover:bg-ak-surface-hover"
           onClick={() => setExpanded((e) => !e)}
           title={expanded ? "Collapse plan" : "Expand plan"}
+          aria-expanded={expanded}
         >
           {expanded ? (
             <ListTodo size={14} className="shrink-0 text-ak-content-secondary" />

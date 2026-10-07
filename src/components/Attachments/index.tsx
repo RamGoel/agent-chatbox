@@ -81,7 +81,7 @@ export function Attachments({
   if (!attachments || attachments.length === 0) return null;
 
   return (
-    <div className={cn("flex flex-wrap gap-2", className)}>
+    <div className={cn("ak flex flex-wrap gap-2", className)}>
       {attachments.map((att) => {
         const image = isImage(att.type) && att.url;
 

@@ -114,7 +114,7 @@ export function Conversation({
   }, []);
 
   return (
-    <div className={cn("flex h-full flex-col bg-ak-surface", className)}>
+    <div className={cn("ak flex h-full flex-col bg-ak-surface", className)}>
       {/* Messages — scroll container with relative wrapper for the floating button */}
       <div className="relative flex-1 overflow-hidden">
         <div ref={scrollRef} onScroll={handleScroll} className="ak-scroll h-full overflow-y-auto">
