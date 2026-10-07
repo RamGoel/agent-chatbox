@@ -11,5 +11,8 @@ export default defineConfig({
     },
   },
   root: __dirname,
+  // GitHub Pages serves project sites from /<repo-name>/. The Pages workflow
+  // sets BASE_PATH; local dev and other hosts use "/".
+  base: process.env.BASE_PATH ?? "/",
   build: { outDir: "dist" },
 });
