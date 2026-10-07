@@ -2,35 +2,35 @@
 # Install the agent-chatbox skill for one agent, and the npm package when it
 # belongs to the current project.
 #
-#   curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-kit/main/skills/install.sh | bash -s -- cursor
-#   curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-kit/main/skills/install.sh | bash -s -- cloud
-#   curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-kit/main/skills/install.sh | bash -s -- claude
-#   curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-kit/main/skills/install.sh | bash -s -- codex
+#   curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/skills/install.sh | bash -s -- cursor
+#   curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/skills/install.sh | bash -s -- cloud
+#   curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/skills/install.sh | bash -s -- claude
+#   curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/skills/install.sh | bash -s -- codex
 set -euo pipefail
 
-REPO="${AGENT_KIT_REPO:-RamGoel/agent-kit}"
-REF="${AGENT_KIT_REF:-main}"
-BASE="${AGENT_KIT_BASE:-https://raw.githubusercontent.com/${REPO}/${REF}}"
+REPO="${AGENT_CHATBOX_REPO:-RamGoel/agent-chatbox}"
+REF="${AGENT_CHATBOX_REF:-main}"
+BASE="${AGENT_CHATBOX_BASE:-https://raw.githubusercontent.com/${REPO}/${REF}}"
 TARGET="${1:-cursor}"
 
 case "$TARGET" in
   cursor)
-    DEST=".cursor/skills/agent-kit"
+    DEST=".cursor/skills/agent-chatbox"
     INSTALL_PKG=1
     NOTE="Cursor loads this skill in this project, including Cloud Agents that check out the repo."
     ;;
   cloud)
-    DEST="${HOME}/.cursor/skills/agent-kit"
+    DEST="${HOME}/.cursor/skills/agent-chatbox"
     INSTALL_PKG=0
     NOTE="Installed for every project on this machine. Cloud Agents only see it after you turn on Settings, Agents, Context and Tools, Sync Skills for Cloud Agents. That sync covers ~/.cursor/skills and nothing else."
     ;;
   claude)
-    DEST=".claude/skills/agent-kit"
+    DEST=".claude/skills/agent-chatbox"
     INSTALL_PKG=1
     NOTE="Claude Code loads this skill in this project. Cursor also reads .claude/skills."
     ;;
   codex)
-    DEST=".agents/skills/agent-kit"
+    DEST=".agents/skills/agent-chatbox"
     INSTALL_PKG=1
     NOTE="Codex loads this skill in this project. Cursor also reads .agents/skills."
     ;;
@@ -43,8 +43,8 @@ esac
 
 mkdir -p "$DEST"
 for file in SKILL.md reference.md; do
-  echo "Fetching skills/agent-kit/${file}"
-  curl -fsSL "${BASE}/skills/agent-kit/${file}" -o "${DEST}/${file}"
+  echo "Fetching skills/agent-chatbox/${file}"
+  curl -fsSL "${BASE}/skills/agent-chatbox/${file}" -o "${DEST}/${file}"
 done
 
 echo "Installed the agent-chatbox skill to ${DEST}"

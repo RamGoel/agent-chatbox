@@ -1,5 +1,5 @@
 ---
-name: agent-kit
+name: agent-chatbox
 description: >-
   Build AI agent chat interfaces with the agent-chatbox React components
   (Conversation, ChatInput, AgentMessage, UserMessage, Reasoning, ToolCall,
