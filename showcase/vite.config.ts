@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "agent-kit": resolve(__dirname, "../src"),
+      "chat-kit": resolve(__dirname, "../src"),
       "@": resolve(__dirname, "../src"),
     },
   },

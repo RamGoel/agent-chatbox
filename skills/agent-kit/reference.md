@@ -1,4 +1,4 @@
-# agent-kit reference
+# chat-kit reference
 
 Read this when you need a prop the SKILL.md example does not show.
 
@@ -57,7 +57,7 @@ Controlled with `value` + `onValueChange`, or uncontrolled with `defaultValue`. 
 
 ## Theme variables
 
-Set these on `:root` and `.dark`, in a stylesheet loaded after `agent-kit/styles.css`.
+Set these on `:root` and `.dark`, in a stylesheet loaded after `chat-kit/styles.css`.
 
 | Variable | Role |
 | --- | --- |

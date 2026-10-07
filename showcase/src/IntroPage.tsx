@@ -1,7 +1,7 @@
 import React from "react";
-import { CodeBlock } from "agent-kit";
+import { CodeBlock } from "chat-kit";
 
-const INSTALL_CMD = "npm install agent-kit";
+const INSTALL_CMD = "npm install chat-kit";
 
 const ASCII_ART = ` █████╗  ██████╗ ███████╗███╗   ██╗████████╗   ██╗  ██╗██╗████████╗
 ██╔══██╗██╔════╝ ██╔════╝████╗  ██║╚══██╔══╝   ██║ ██╔╝██║╚══██╔══╝

@@ -1,4 +1,4 @@
-# agent-kit
+# chat-kit
 
 A standalone React component library for building AI agent chat interfaces. No design system dependency, no Tailwind or CSS framework required in your app — import the components and one precompiled stylesheet, override a few CSS variables, and you're done.
 
@@ -21,7 +21,7 @@ Primitives: **Markdown** (GitHub-flavoured markdown via `react-markdown`), **Mes
 ## Features
 
 - **Standalone** — Ships precompiled CSS and its own theming via CSS variables
-- **Doesn't touch your app** — No global reset; styles are scoped to agent-kit components
+- **Doesn't touch your app** — No global reset; styles are scoped to chat-kit components
 - **Safe by default for model output** — Raw HTML is escaped, `javascript:` and other unsafe links aren't rendered as links, and markdown images render as links instead of loading automatically
 - **Dark mode** — Built-in dark theme via `.dark` class, override any color with CSS variables
 - **TypeScript** — Full type definitions for all props and callbacks
@@ -30,14 +30,14 @@ Primitives: **Markdown** (GitHub-flavoured markdown via `react-markdown`), **Mes
 ## Install
 
 ```bash
-npm install agent-kit
+npm install chat-kit
 ```
 
 ## Quick start
 
 ```tsx
-import { Conversation, type ConversationMessage } from "agent-kit";
-import "agent-kit/styles.css";
+import { Conversation, type ConversationMessage } from "chat-kit";
+import "chat-kit/styles.css";
 
 const messages: ConversationMessage[] = [
   {
@@ -101,7 +101,7 @@ All colors are driven by CSS variables. Override them globally or per-component:
 }
 ```
 
-Load your overrides after `agent-kit/styles.css`. The full list of variables:
+Load your overrides after `chat-kit/styles.css`. The full list of variables:
 
 | Variable | Used for |
 | --- | --- |
@@ -115,7 +115,7 @@ Load your overrides after `agent-kit/styles.css`. The full list of variables:
 
 ## Agent skill
 
-Run one of these from your app's root. Each installs the same skill in a different place, and the project targets also run `npm install agent-kit` when a `package.json` is present.
+Run one of these from your app's root. Each installs the same skill in a different place, and the project targets also run `npm install chat-kit` when a `package.json` is present.
 
 ```bash
 # This project, for Cursor. Cloud Agents that check out the repo get it too.

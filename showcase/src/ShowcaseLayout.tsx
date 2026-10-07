@@ -36,7 +36,7 @@ const MENU: (MenuItem | MenuGroup)[] = [
 function ThemeToggle({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
   return (
     <div className="flex items-center gap-3 px-3 py-3">
-      <span className="text-sm font-medium text-ak-content">agent-kit</span>
+      <span className="text-sm font-medium text-ak-content">chat-kit</span>
       <button
         onClick={onToggle}
         className="ml-auto flex h-7 w-12 items-center rounded-full border border-ak-border bg-ak-surface-hover px-0.5 transition-colors"
