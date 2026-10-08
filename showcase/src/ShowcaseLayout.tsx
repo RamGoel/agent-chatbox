@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { flushSync } from "react-dom";
 import { Link, useLocation, Outlet } from "react-router-dom";
-import { Search, Sun, Moon, LayoutPanelTop, House, Settings, Sparkles, History, ArrowUpRight } from "lucide-react";
+import { Search, Sun, Moon, LayoutPanelTop, House, Settings, Sparkles, History, ArrowUpRight, BookOpen } from "lucide-react";
 import { buildMenu } from "./registry";
+import { RECIPES } from "./recipes";
 
 // ============================================================================
 // Menu items
@@ -11,7 +12,7 @@ import { buildMenu } from "./registry";
 interface MenuItem {
   label: string;
   href: string;
-  icon: "home" | "component" | "settings" | "skills" | "changelog" | "github";
+  icon: "home" | "component" | "settings" | "skills" | "changelog" | "github" | "recipe";
   external?: boolean;
 }
 
@@ -35,6 +36,14 @@ const MENU: (MenuItem | MenuGroup)[] = [
     href: "https://github.com/RamGoel/agent-chatbox",
     icon: "github",
     external: true,
+  },
+  {
+    label: "Recipes",
+    items: RECIPES.map((recipe) => ({
+      label: recipe.title,
+      href: `/recipes/${recipe.slug}`,
+      icon: "recipe" as const,
+    })),
   },
   {
     label: "Components",
@@ -85,11 +94,10 @@ function SidebarItem({
   item: MenuItem;
   active: boolean;
 }) {
-  const className = `flex items-center gap-2.5 rounded-lg px-3 py-1.5 text-sm transition-colors ${
-    active
-      ? "bg-ak-surface-hover text-ak-content font-medium"
+  const className = `flex items-center gap-2.5 rounded-lg px-3 py-1.5 text-sm transition-colors ${active
+      ? "bg-ak-surface-hover text-ak-content"
       : "text-ak-content-secondary hover:bg-ak-surface-hover hover:text-ak-content"
-  }`;
+    }`;
 
   const content = (
     <>
@@ -99,6 +107,8 @@ function SidebarItem({
         <Settings size={16} strokeWidth={1.5} />
       ) : item.icon === "skills" ? (
         <Sparkles size={16} strokeWidth={1.5} />
+      ) : item.icon === "recipe" ? (
+        <BookOpen size={16} strokeWidth={1.5} />
       ) : item.icon === "changelog" ? (
         <History size={16} strokeWidth={1.5} />
       ) : item.icon === "github" ? (

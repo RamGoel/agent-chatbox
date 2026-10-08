@@ -79,6 +79,33 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Faint scrollbar for recipe threads */
+.thread-scroll {
+  scrollbar-width: none;
+}
+
+.thread-scroll:hover {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--ak-content-tertiary) 35%, transparent) transparent;
+}
+
+.thread-scroll::-webkit-scrollbar {
+  width: 2px;
+}
+
+.thread-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.thread-scroll::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 9999px;
+}
+
+.thread-scroll:hover::-webkit-scrollbar-thumb {
+  background-color: color-mix(in srgb, var(--ak-content-tertiary) 35%, transparent);
+}
+
 /* Circular reveal animation for theme toggle */
 @keyframes theme-circle-reveal {
   from {

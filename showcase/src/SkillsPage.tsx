@@ -76,6 +76,13 @@ export function SkillsPage() {
         </p>
         <CodeBlock code={PROMPT} language="text" minHeight={0} />
       </div>
+
+      <div className="mt-10 flex flex-col gap-3">
+        <h2 className="text-sm font-semibold text-ak-content">Recipes</h2>
+        <p className="text-sm text-ak-content-secondary">
+          The showcase has a full thread for a general chat, a coding agent, a work agent, and a research agent. Each one is the composition the skill is steering toward.
+        </p>
+      </div>
     </div>
   );
 }

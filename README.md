@@ -75,6 +75,19 @@ export function App() {
 
 Give the scroll parent a height. Each component is independent, so you place `Plan`, `AgentQuestion`, and `ScrollToBottom` where the layout needs them.
 
+## Recipes
+
+The showcase has a full thread for each of these:
+
+- **General chat** — messages, image attachments, a streaming reply, and a composer
+- **Coding agent** — a reasoning trace, a file edit, terminal output, and a plan above the input
+- **Work agent** — an attached brief, a draft, and a question before anything is sent
+- **Research agent** — a web search, a fetched page, and an answer that points back at both
+
+```bash
+npm run dev   # recipes are in the sidebar
+```
+
 ## Theming
 
 All colors are driven by CSS variables. Override them globally or per-component:
