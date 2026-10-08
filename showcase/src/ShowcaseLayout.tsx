@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { flushSync } from "react-dom";
 import { Link, useLocation, Outlet } from "react-router-dom";
-import { Search, Sun, Moon, LayoutPanelTop, House, Settings, Sparkles } from "lucide-react";
+import { Search, Sun, Moon, LayoutPanelTop, House, Settings, Sparkles, History, ArrowUpRight } from "lucide-react";
 import { buildMenu } from "./registry";
 
 // ============================================================================
@@ -11,7 +11,8 @@ import { buildMenu } from "./registry";
 interface MenuItem {
   label: string;
   href: string;
-  icon: "home" | "component" | "settings" | "skills"
+  icon: "home" | "component" | "settings" | "skills" | "changelog";
+  external?: boolean;
 }
 
 interface MenuGroup {
@@ -23,6 +24,12 @@ const MENU: (MenuItem | MenuGroup)[] = [
   { label: "Introduction", href: "/", icon: "home" },
   { label: "Setup", href: "/setup", icon: "settings" },
   { label: "Skills", href: "/skills", icon: "skills" },
+  {
+    label: "Changelog",
+    href: "https://github.com/RamGoel/agent-chatbox/releases",
+    icon: "changelog",
+    external: true,
+  },
   {
     label: "AGENT",
     items: buildMenu().map((m) => ({ ...m, icon: "component" as const })),
@@ -64,24 +71,42 @@ function SidebarItem({
   item: MenuItem;
   active: boolean;
 }) {
-  return (
-    <Link
-      to={item.href}
-      className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition-colors ${active
-        ? "bg-ak-surface-hover text-ak-content font-medium"
-        : "text-ak-content-secondary hover:bg-ak-surface-hover hover:text-ak-content"
-        }`}
-    >
+  const className = `flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition-colors ${active
+    ? "bg-ak-surface-hover text-ak-content font-medium"
+    : "text-ak-content-secondary hover:bg-ak-surface-hover hover:text-ak-content"
+    }`;
+
+  const content = (
+    <>
       {item.icon === "home" ? (
         <House size={16} strokeWidth={1.5} />
       ) : item.icon === "settings" ? (
         <Settings size={16} strokeWidth={1.5} />
       ) : item.icon === "skills" ? (
         <Sparkles size={16} strokeWidth={1.5} />
+      ) : item.icon === "changelog" ? (
+        <History size={16} strokeWidth={1.5} />
       ) : (
         <LayoutPanelTop size={16} strokeWidth={1.5} />
       )}
       {item.label}
+      {item.external && (
+        <ArrowUpRight size={14} strokeWidth={1.5} className="ml-auto text-ak-content-tertiary" />
+      )}
+    </>
+  );
+
+  if (item.external) {
+    return (
+      <a href={item.href} target="_blank" rel="noopener noreferrer" className={className}>
+        {content}
+      </a>
+    );
+  }
+
+  return (
+    <Link to={item.href} className={className}>
+      {content}
     </Link>
   );
 }

@@ -1,9 +1,5 @@
 # Changelog
 
-## Unreleased
-
-- Add an installable agent skill (`skills/agent-chatbox`) and `skills/install.sh`. The Skills page offers Cursor, Cloud Agents, Claude Code, and Codex, and the project targets also install the npm package.
-
 ## 0.1.0
 
 First public release.
@@ -15,3 +11,4 @@ First public release.
 - The default font is now the system font stack. Set `--ak-font-sans` / `--ak-font-mono` to use your own.
 - Collapsible headers (`Reasoning`, `ToolCall`, `Plan`) are keyboard-accessible buttons with `aria-expanded`.
 - Includes `Plan` and `ScrollToBottom` components.
+- An installable agent skill (`skills/agent-chatbox`) and `skills/install.sh` for Cursor, Cloud Agents, Claude Code, and Codex.
