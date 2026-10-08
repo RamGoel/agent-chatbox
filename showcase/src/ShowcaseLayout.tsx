@@ -37,7 +37,7 @@ const MENU: (MenuItem | MenuGroup)[] = [
     external: true,
   },
   {
-    label: "AGENT",
+    label: "Components",
     items: buildMenu().map((m) => ({ ...m, icon: "component" as const })),
   },
 ];
@@ -85,10 +85,11 @@ function SidebarItem({
   item: MenuItem;
   active: boolean;
 }) {
-  const className = `flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition-colors ${active
-    ? "bg-ak-surface-hover text-ak-content font-medium"
-    : "text-ak-content-secondary hover:bg-ak-surface-hover hover:text-ak-content"
-    }`;
+  const className = `flex items-center gap-2.5 rounded-lg px-3 py-1.5 text-sm transition-colors ${
+    active
+      ? "bg-ak-surface-hover text-ak-content font-medium"
+      : "text-ak-content-secondary hover:bg-ak-surface-hover hover:text-ak-content"
+  }`;
 
   const content = (
     <>
@@ -179,8 +180,8 @@ function Sidebar({
         {filtered.map((item, i) => {
           if ("items" in item) {
             return (
-              <div key={i} className="mb-2">
-                <div className="my-1.5 px-3 text-xs uppercase tracking-wide text-ak-content-tertiary">
+              <div key={i} className="mt-4">
+                <div className="mb-1.5 px-3 text-xs uppercase tracking-wide text-ak-content-tertiary">
                   {item.label}
                 </div>
                 <div className="flex flex-col gap-0.5">
