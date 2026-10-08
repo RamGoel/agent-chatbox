@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from "react";
+import { CodeBlock } from "agent-chatbox";
 
 export function PageContent({ children }: { children: ReactNode }) {
   return (
@@ -11,23 +12,17 @@ export function PageContent({ children }: { children: ReactNode }) {
   );
 }
 
-function CodeSnippet({ code }: { code: string }) {
-  return (
-    <pre className="overflow-x-auto bg-[#24292e] px-4 py-3 font-mono text-sm leading-relaxed text-[#e1e4e8]">
-      <code>{code}</code>
-    </pre>
-  );
-}
-
 export function StoryCard({
   name,
   description,
   code,
+  language = "tsx",
   children,
 }: {
   name: string;
   description?: string;
   code?: string;
+  language?: string;
   children: ReactNode;
 }) {
   const [showCode, setShowCode] = useState(false);
@@ -47,7 +42,7 @@ export function StoryCard({
         {code && (
           <div className="relative overflow-hidden">
             <div style={{ maxHeight: showCode ? undefined : 72, overflow: "hidden" }}>
-              <CodeSnippet code={code} />
+              <CodeBlock code={code} language={language} noBorder noCopy={!showCode} minHeight={0} />
             </div>
             {!showCode && (
               <div
