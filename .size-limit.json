@@ -1,0 +1,12 @@
+[
+  {
+    "name": "JS (dist/index.js, without Shiki and other dependencies)",
+    "path": "dist/index.js",
+    "limit": "12 kB"
+  },
+  {
+    "name": "CSS (dist/styles.css)",
+    "path": "dist/styles.css",
+    "limit": "4 kB"
+  }
+]

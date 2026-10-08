@@ -18,5 +18,6 @@ jobs:
       - run: npm run typecheck
       - run: npx tsc -p showcase --noEmit
       - run: npm run build
+      - run: npm run size
       - run: npm run build:showcase
       - run: npm pack --dry-run

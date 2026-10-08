@@ -43,6 +43,8 @@
     "build": "tsup && tailwindcss -i src/styles.css -o dist/styles.css --postcss --minify",
     "build:showcase": "vite build showcase",
     "typecheck": "tsc --noEmit",
+    "size": "size-limit",
+    "changeset": "changeset",
     "prepublishOnly": "npm run typecheck && npm run build"
   },
   "peerDependencies": {
@@ -50,6 +52,8 @@
     "react-dom": ">=18"
   },
   "devDependencies": {
+    "@changesets/cli": "^3.0.3",
+    "@size-limit/file": "^14.2.0",
     "@types/node": "^26.5.1",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
@@ -60,6 +64,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.18.4",
+    "size-limit": "^14.2.0",
     "tailwindcss": "^3.4.17",
     "tsup": "^8.3.5",
     "typescript": "^5.7.2",
