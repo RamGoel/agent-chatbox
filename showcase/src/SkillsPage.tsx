@@ -1,16 +1,6 @@
 import { CodeBlock } from "agent-chatbox";
 
-const INSTALL = `# Cursor, this project. Cloud Agents that check out the repo get it too.
-curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/.agent/skills/install.sh | bash -s -- cursor
-
-# Every project on this machine. Then turn on Settings → Agents → Sync Skills for Cloud Agents.
-curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/.agent/skills/install.sh | bash -s -- cloud
-
-# Claude Code, this project
-curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/.agent/skills/install.sh | bash -s -- claude
-
-# Codex, this project
-curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/.agent/skills/install.sh | bash -s -- codex`;
+const INSTALL = `curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/.agent/skills/install.sh | bash`;
 
 const PROMPT =
   "Add a chat thread with agent-chatbox. Include a user message, a tool call, and a stop button while the reply is streaming.";
@@ -43,7 +33,7 @@ export function SkillsPage() {
       <div className="mt-10 flex flex-col gap-3">
         <h2 className="text-sm font-semibold text-ak-content">Install</h2>
         <p className="text-sm text-ak-content-secondary">
-          Run one of these from your app's root. The comment on each line says where the skill is installed. Project commands also run <code className="rounded bg-ak-surface-hover px-1 text-xs">npm install agent-chatbox</code> when a <code className="rounded bg-ak-surface-hover px-1 text-xs">package.json</code> is present.
+          Run this from your app's root. It installs the skill into <code className="rounded bg-ak-surface-hover px-1 text-xs">agent/skills</code> and runs <code className="rounded bg-ak-surface-hover px-1 text-xs">npm install agent-chatbox</code> when a <code className="rounded bg-ak-surface-hover px-1 text-xs">package.json</code> is present.
         </p>
         <CodeBlock code={INSTALL} language="bash" minHeight={0} />
       </div>
@@ -55,7 +45,7 @@ export function SkillsPage() {
             <span className="font-medium text-ak-content">agent-chatbox</span> added to your dependencies, plus the stylesheet import your agent is told to keep.
           </li>
           <li>
-            A project skill your agent loads when you ask for a chat UI, agent transcript, tool calls, or reasoning display.
+            A project skill in <code className="rounded bg-ak-surface-hover px-1 text-xs">agent/skills</code> that your agent loads when you ask for a chat UI, agent transcript, tool calls, or reasoning display.
           </li>
         </ul>
       </div>
@@ -75,7 +65,7 @@ export function SkillsPage() {
       <div className="mt-10 flex flex-col gap-3">
         <h2 className="text-sm font-semibold text-ak-content">When it runs</h2>
         <p className="text-sm text-ak-content-secondary">
-          Your agent loads the skill on its own when your request is about a chat UI, an agent transcript, tool calls, a reasoning trace, or a plan. In Cursor you can also type <code className="rounded bg-ak-surface-hover px-1 text-xs">/agent-chatbox</code> to attach it to one message.
+          Your agent loads the skill on its own when your request is about a chat UI, an agent transcript, tool calls, a reasoning trace, or a plan.
         </p>
       </div>
 

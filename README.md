@@ -110,18 +110,10 @@ Load your overrides after `agent-chatbox/styles.css`. The full list of variables
 
 ## Agent skill
 
-Run one of these from your app's root. Each installs the same skill in a different place, and the project targets also run `npm install agent-chatbox` when a `package.json` is present.
+Run this from your app's root. It installs the skill into `agent/skills` and runs `npm install agent-chatbox` when a `package.json` is present.
 
 ```bash
-# This project, for Cursor. Cloud Agents that check out the repo get it too.
-curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/.agent/skills/install.sh | bash -s -- cursor
-
-# Every project on this machine. Then turn on Settings → Agents → Sync Skills for Cloud Agents.
-curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/.agent/skills/install.sh | bash -s -- cloud
-
-# Claude Code (.claude/skills) or Codex (.agents/skills)
-curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/.agent/skills/install.sh | bash -s -- claude
-curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/.agent/skills/install.sh | bash -s -- codex
+curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/.agent/skills/install.sh | bash
 ```
 
 ## Development
