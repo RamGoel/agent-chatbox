@@ -1,6 +1,6 @@
 {
   "name": "agent-chatbox",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Standalone React components for building AI agent chat interfaces",
   "license": "MIT",
   "author": "Ram Goel <rgoel766@gmail.com>",

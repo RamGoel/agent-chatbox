@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0
+
+### Major Changes
+
+- Remove the `Conversation` component and the `ConversationMessage` type. Compose `UserMessage`, `AgentMessage`, `Reasoning`, `ToolCall`, `Plan`, `AgentQuestion`, `ChatInput`, and `ScrollToBottom` in your own layout.
+
 ## 0.1.0
 
 First public release.

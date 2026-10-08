@@ -2,26 +2,9 @@
 
 Read this when you need a prop the SKILL.md example does not show.
 
-## ConversationMessage
+## ToolCall
 
 ```ts
-interface ConversationMessage {
-  id: string;
-  role: "user" | "agent";
-  content?: string;          // markdown
-  streaming?: boolean;
-  attachments?: Attachment[]; // { id, name, type, size?, url? }
-  reasoning?: { content: string; streaming?: boolean; duration?: number };
-  toolCalls?: {
-    toolTitle?: string;
-    toolStatus?: "in_progress" | "success" | "error" | "";
-    toolContent?: ToolContent[];
-  }[];
-  planEntries?: { content: string; status?: PlanEntryStatus; priority?: string }[];
-}
-
-type PlanEntryStatus = "pending" | "in_progress" | "completed" | "failed" | "cancelled";
-
 type ToolContent =
   | { type: "content"; text?: string }
   | { type: "diff"; path?: string; oldText?: string | null; newText?: string }
@@ -30,7 +13,33 @@ type ToolContent =
 
 `toolStatus: "in_progress"` pulses the title. `"error"` shows an error icon. A `diff` entry renders a line diff; a `terminal` entry renders a bash block. `ToolCall` infers an icon from `toolTitle` (Bash, Read, Edit, Search, …) when you don't pass `toolKind`.
 
-The first plan in a thread renders inline. A later plan that is not fully completed also renders as a floating bar above the input. Pass the same `planEntries` on the message; don't render a second `Plan` yourself inside `Conversation`.
+## Plan
+
+```ts
+type PlanEntryStatus = "pending" | "in_progress" | "completed" | "failed" | "cancelled";
+
+interface PlanEntry {
+  content: string;
+  status?: PlanEntryStatus;
+  priority?: string;
+}
+```
+
+`<Plan entries={entries} />` is the full list. `<Plan entries={entries} floating />` is the compact bar, usually placed above `ChatInput`.
+
+## Attachments
+
+```ts
+interface Attachment {
+  id: string;
+  name: string;
+  type: string;
+  size?: number;
+  url?: string;
+}
+```
+
+Pass `attachments` to `UserMessage` or `ChatInput`. An image needs `url`; without it, the file renders as a chip.
 
 ## AgentQuestion
 

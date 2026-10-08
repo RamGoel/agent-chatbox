@@ -107,14 +107,15 @@ function StandaloneSetup() {
         </p>
         <Snippet
           language="tsx"
-          code={`import { Conversation, ChatInput } from "agent-chatbox";
+          code={`import { AgentMessage, ChatInput, UserMessage } from "agent-chatbox";
 
 function App() {
   return (
-    <Conversation
-      messages={messages}
-      onSubmit={handleSubmit}
-    />
+    <div style={{ display: "flex", flexDirection: "column", height: 600 }}>
+      <UserMessage content="Deploy staging." />
+      <AgentMessage content="Deployed to staging." />
+      <ChatInput onSubmit={handleSubmit} />
+    </div>
   );
 }`}
         />
@@ -208,16 +209,17 @@ function ExistingDesignSystemSetup() {
         </p>
         <Snippet
           language="tsx"
-          code={`import { Conversation } from "agent-chatbox";
+          code={`import { AgentMessage, ChatInput, UserMessage } from "agent-chatbox";
 import "agent-chatbox/styles.css";
 import "./design-tokens.css"; // your --ak-* mappings
 
 function App() {
   return (
-    <Conversation
-      messages={messages}
-      onSubmit={handleSubmit}
-    />
+    <div style={{ display: "flex", flexDirection: "column", height: 600 }}>
+      <UserMessage content="Deploy staging." />
+      <AgentMessage content="Deployed to staging." />
+      <ChatInput onSubmit={handleSubmit} />
+    </div>
   );
 }`}
         />

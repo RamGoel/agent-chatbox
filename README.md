@@ -14,7 +14,6 @@ A standalone React component library for building AI agent chat interfaces. No d
 - **Attachments** — File preview list with image thumbnails and file chips
 - **CodeBlock** — Syntax-highlighted code blocks via Shiki with copy-to-clipboard
 - **ScrollToBottom** — Floating "jump to latest" button
-- **Conversation** — Composes all components into a single scrollable chat interface
 
 Primitives: **Markdown** (GitHub-flavoured markdown via `react-markdown`), **MessageActions**, **Icon**.
 
@@ -36,49 +35,45 @@ npm install agent-chatbox
 ## Quick start
 
 ```tsx
-import { Conversation, type ConversationMessage } from "agent-chatbox";
+import {
+  AgentMessage,
+  ChatInput,
+  Reasoning,
+  ToolCall,
+  UserMessage,
+} from "agent-chatbox";
 import "agent-chatbox/styles.css";
-
-const messages: ConversationMessage[] = [
-  {
-    id: "1",
-    role: "user",
-    content: "Can you deploy the staging environment?",
-  },
-  {
-    id: "2",
-    role: "agent",
-    reasoning: {
-      content: "I need to check the current branch and run the build.",
-      duration: 4,
-    },
-    toolCalls: [
-      {
-        toolTitle: "Bash",
-        toolStatus: "success",
-        toolContent: [
-          { type: "terminal", terminalId: "1", text: "$ npm run build\n✓ built in 2.3s" },
-        ],
-      },
-    ],
-    content: "Done! Deployed to staging.",
-  },
-];
 
 export function App() {
   return (
-    <div style={{ height: 600 }}>
-      <Conversation
-        messages={messages}
-        onSubmit={(v) => console.log(v)}
-        onStop={() => console.log("stopped")}
-      />
+    <div style={{ display: "flex", flexDirection: "column", height: 600 }}>
+      <div style={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column", gap: 16, padding: 12 }}>
+        <UserMessage content="Can you deploy the staging environment?" />
+        <Reasoning
+          content="I need to check the current branch and run the build."
+          duration={4}
+        />
+        <ToolCall
+          toolTitle="Bash"
+          toolStatus="success"
+          toolContent={[
+            { type: "terminal", terminalId: "1", text: "$ npm run build\n✓ built in 2.3s" },
+          ]}
+        />
+        <AgentMessage content="Done! Deployed to staging." />
+      </div>
+      <div style={{ padding: 12 }}>
+        <ChatInput
+          onSubmit={(value) => console.log(value)}
+          onStop={() => console.log("stopped")}
+        />
+      </div>
     </div>
   );
 }
 ```
 
-`Conversation` fills its parent's height, so give the parent a height.
+Give the scroll parent a height. Each component is independent, so you place `Plan`, `AgentQuestion`, and `ScrollToBottom` where the layout needs them.
 
 ## Theming
 

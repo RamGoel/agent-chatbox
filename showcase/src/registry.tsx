@@ -8,11 +8,9 @@ import {
   AgentQuestion,
   CodeBlock,
   Attachments,
-  Conversation,
   ScrollToBottom,
   Plan,
   type Attachment,
-  type ConversationMessage,
   type PlanEntry,
 } from "agent-chatbox";
 import { useState } from "react";
@@ -715,144 +713,6 @@ export const REGISTRY: ComponentConfig[] = [
             <ScrollToBottom visible onClick={() => {}} />
           </div>
         ),
-      },
-    ],
-  },
-
-  {
-    slug: "conversation",
-    title: "Conversation",
-    description:
-      "Full chat conversation that composes all agent components — UserMessage, Reasoning, ToolCall, AgentMessage, AgentQuestion, and ChatInput — into a single scrollable interface with auto-scroll and input.",
-    stories: [
-      {
-        name: "Full Conversation",
-        description: "A complete interaction showing reasoning, tool calls, messages, and a question.",
-        code: `<Conversation
-  messages={messages}
-  isGenerating={isGenerating}
-  onSubmit={handleSubmit}
-  onStop={handleStop}
-/>`,
-        render: () => {
-          const [messages, setMessages] = useState<ConversationMessage[]>([
-            {
-              id: "1",
-              role: "user",
-              content: "Can you deploy the staging environment?",
-            },
-            {
-              id: "2",
-              role: "agent",
-              reasoning: {
-                content:
-                  "I need to check the current branch, run the build, and verify tests pass before deploying. Let me start by reading the deployment config.",
-                duration: 4,
-              },
-              toolCalls: [
-                {
-                  toolTitle: "Read File",
-                  toolStatus: "success",
-                  toolContent: [
-                    { type: "content", text: "Found deploy.config.yml with staging settings" },
-                  ],
-                },
-                {
-                  toolTitle: "Bash",
-                  toolStatus: "success",
-                  toolContent: [
-                    { type: "terminal", terminalId: "1", text: "$ npm run build\n✓ built in 2.3s\n$ npm test\n✓ 42 tests passed" },
-                  ],
-                },
-              ],
-              content:
-                "Done! I've deployed to staging.\n\nHere's what I did:\n\n1. **Read** the deployment config\n2. **Built** the project (2.3s)\n3. **Ran** all 42 tests (all passed)\n4. **Deployed** to `staging.example.com`\n\nThe deployment is live at `https://staging.example.com`.",
-              planEntries: [
-                { content: "Read deployment config", status: "completed" },
-                { content: "Build the project", status: "completed" },
-                { content: "Run all tests", status: "completed" },
-                { content: "Deploy to staging", status: "completed" },
-              ],
-            },
-            {
-              id: "3",
-              role: "user",
-              content: "Great! Can you also run the database migration?",
-              attachments: [
-                { id: "a1", name: "migration.sql", type: "text/sql", size: 4096 },
-              ],
-            },
-            {
-              id: "4",
-              role: "agent",
-              toolCalls: [
-                {
-                  toolTitle: "Edit File",
-                  toolStatus: "success",
-                  toolContent: [
-                    {
-                      type: "diff",
-                      path: "db/migrations/001_add_users.sql",
-                      oldText: "CREATE TABLE users (\n  id INTEGER PRIMARY KEY\n);",
-                      newText: "CREATE TABLE users (\n  id INTEGER PRIMARY KEY,\n  email TEXT UNIQUE NOT NULL,\n  created_at TIMESTAMP DEFAULT NOW()\n);",
-                    },
-                  ],
-                },
-              ],
-              content: "Migration applied successfully. Added `email` and `created_at` columns to the users table.",
-            },
-            {
-              id: "5",
-              role: "agent",
-              planEntries: [
-                { content: "Backup current database", status: "completed" },
-                { content: "Run migration script", status: "in_progress" },
-                { content: "Verify schema changes", status: "pending" },
-                { content: "Restart application servers", status: "pending" },
-              ],
-              question: {
-                question: "Which environment should I deploy the migration to?",
-                type: "single-select",
-                options: [
-                  { label: "Staging", value: "staging" },
-                  { label: "Production", value: "production" },
-                ],
-                onSubmit: (answer) => alert(`Deploying migration to: ${answer}`),
-              },
-            },
-          ]);
-          const [isGenerating, setIsGenerating] = useState(false);
-
-          const handleSubmit = (value: string) => {
-            setMessages((prev) => [
-              ...prev,
-              { id: String(prev.length + 1), role: "user", content: value },
-            ]);
-            setIsGenerating(true);
-            setTimeout(() => {
-              setIsGenerating(false);
-              setMessages((prev) => [
-                ...prev,
-                {
-                  id: String(prev.length + 1),
-                  role: "agent",
-                  content: `Got it — working on: "${value}"`,
-                },
-              ]);
-            }, 1500);
-          };
-
-          return (
-            <div className="mx-auto w-full max-w-sm overflow-hidden rounded-3xl border border-ak-border bg-ak-surface shadow-lg" style={{ height: 600 }}>
-              <Conversation
-                messages={messages}
-                isGenerating={isGenerating}
-                onSubmit={handleSubmit}
-                onStop={() => setIsGenerating(false)}
-              />
-            </div>
-          );
-        },
       },
     ],
   },

@@ -17,8 +17,8 @@ const PROMPT =
 
 const HELPS = [
   "Imports agent-chatbox/styles.css, so the components are styled.",
-  "Gives Conversation a parent with a height, so the thread is visible.",
-  "Renders AgentQuestion beside the thread, because Conversation ignores a question field on a message.",
+  "Gives the thread a sized scroll parent, so messages are visible.",
+  "Places AgentQuestion in the thread where the agent is asking the user.",
   "Passes a language to CodeBlock, so code is highlighted instead of plain text.",
   "Themes with --ak-* variables loaded after the stylesheet, not with Tailwind or inline overrides.",
 ];
@@ -29,7 +29,7 @@ export function SkillsPage() {
       <div className="flex flex-col gap-2">
         <h1 className="text-2xl font-medium text-ak-content">Skills</h1>
         <p className="text-sm text-ak-content-secondary">
-          Install the agent-chatbox package and a skill in one command. The skill teaches your coding agent the component API, the message shape, and how theming works, so it builds chats with these components instead of inventing its own.
+          Install the agent-chatbox package and a skill in one command. The skill teaches your coding agent the component API and how theming works, so it builds chats with these components instead of inventing its own.
         </p>
       </div>
 
