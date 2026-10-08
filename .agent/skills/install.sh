@@ -2,10 +2,10 @@
 # Install the agent-chatbox skill for one agent, and the npm package when it
 # belongs to the current project.
 #
-#   curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/skills/install.sh | bash -s -- cursor
-#   curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/skills/install.sh | bash -s -- cloud
-#   curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/skills/install.sh | bash -s -- claude
-#   curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/skills/install.sh | bash -s -- codex
+#   curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/.agent/skills/install.sh | bash -s -- cursor
+#   curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/.agent/skills/install.sh | bash -s -- cloud
+#   curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/.agent/skills/install.sh | bash -s -- claude
+#   curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/.agent/skills/install.sh | bash -s -- codex
 set -euo pipefail
 
 REPO="${AGENT_CHATBOX_REPO:-RamGoel/agent-chatbox}"
@@ -43,8 +43,8 @@ esac
 
 mkdir -p "$DEST"
 for file in SKILL.md reference.md; do
-  echo "Fetching skills/agent-chatbox/${file}"
-  curl -fsSL "${BASE}/skills/agent-chatbox/${file}" -o "${DEST}/${file}"
+  echo "Fetching .agent/skills/agent-chatbox/${file}"
+  curl -fsSL "${BASE}/.agent/skills/agent-chatbox/${file}" -o "${DEST}/${file}"
 done
 
 echo "Installed the agent-chatbox skill to ${DEST}"

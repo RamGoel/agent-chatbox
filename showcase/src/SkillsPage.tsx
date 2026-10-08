@@ -1,16 +1,16 @@
 import { CodeBlock } from "agent-chatbox";
 
 const INSTALL = `# Cursor, this project. Cloud Agents that check out the repo get it too.
-curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/skills/install.sh | bash -s -- cursor
+curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/.agent/skills/install.sh | bash -s -- cursor
 
 # Every project on this machine. Then turn on Settings → Agents → Sync Skills for Cloud Agents.
-curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/skills/install.sh | bash -s -- cloud
+curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/.agent/skills/install.sh | bash -s -- cloud
 
 # Claude Code, this project
-curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/skills/install.sh | bash -s -- claude
+curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/.agent/skills/install.sh | bash -s -- claude
 
 # Codex, this project
-curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/skills/install.sh | bash -s -- codex`;
+curl -fsSL https://raw.githubusercontent.com/RamGoel/agent-chatbox/main/.agent/skills/install.sh | bash -s -- codex`;
 
 const PROMPT =
   "Add a chat thread with agent-chatbox. Include a user message, a tool call, and a stop button while the reply is streaming.";

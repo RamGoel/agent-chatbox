@@ -26,7 +26,7 @@ const MENU: (MenuItem | MenuGroup)[] = [
   { label: "Skills", href: "/skills", icon: "skills" },
   {
     label: "Changelog",
-    href: "https://github.com/RamGoel/agent-chatbox/releases",
+    href: "https://github.com/RamGoel/agent-chatbox/blob/main/CHANGELOG.md",
     icon: "changelog",
     external: true,
   },
